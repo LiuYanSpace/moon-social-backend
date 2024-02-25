@@ -1,0 +1,38 @@
+spring:
+  config:
+    profiles:
+      active: dev
+
+  servlet:
+    multipart:
+      maxFileSize: 5MB
+      maxRequestSize: 10MB
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/flarum_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: rootroot
+    hikari:
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: MYSQL
+    show-sql: true
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+
+server:
+  port: 8081
+
+
+jwt:
+  secret: 9GItnI6fFFe9Xy8H83nknT7sUL2NmTFqKMYA9zcK9lXgtYvfSwplsUtKPPO9jRw2TrZryP/vZ7ghNfaJNdwuvzQcEMzytNa2CfFQN1mwQH1pUneyXTpvv5evZGmdqGIBc/VLKCf7lYgQQcf7KqCcbeiBTCWphaet2t6xIMJ6LDFJy8U1vnun0DYM6AQ/uhAPCmfK6TnfhBITV7imW/sKOFoDMBYV46yQkD+pTg==
+  expirationInMs: 2592000000 #30 days

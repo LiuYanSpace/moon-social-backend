@@ -1,0 +1,34 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<databaseChangeLog-->
+<!--        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->
+<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-->
+<!--      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">-->
+<!--    <changeSet  author="bird"  id="1">-->
+<!--        <createTable tableName="member">-->
+<!--            <column  name="id"  type="BIGINT" autoIncrement="true">-->
+<!--                <constraints  nullable="false"  primaryKey="true"  unique="true"/>-->
+<!--            </column>-->
+<!--            <column  name="username"  type="VARCHAR(50)">-->
+<!--                <constraints  nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="first_name" type="VARCHAR(50)"/>-->
+<!--            <column name="last_name" type="VARCHAR(50)"/>-->
+<!--            <column  name="password"  type="VARCHAR(200)" />-->
+<!--            <column  name="email"  type="VARCHAR(50)" />-->
+<!--            <column  name="points"  type="BIGINT"/>-->
+<!--            <column  name="phone"  type="VARCHAR(50)" />-->
+<!--            <column  name="dateOfBirth"  type="VARCHAR(50)" />-->
+<!--            <column  name="bio"  type="VARCHAR(200)" />-->
+<!--            <column  name="profile_image_url"  type="VARCHAR(300)" />-->
+<!--            <column  name="role"  type="VARCHAR(30)" />-->
+<!--            <column  name="resetKey"  type="VARCHAR(20)" />-->
+<!--            <column  name="status"  type="VARCHAR(10)" />-->
+<!--            <column name="first_time_login" type="bit"/>-->
+<!--            <column name="date_of_birth" type="DATE"/>-->
+<!--            <column name="last_login" type="DATETIME"/>-->
+<!--            <column name="create_time" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP"/>-->
+<!--            <column name="update_time" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP"/>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+<!--</databaseChangeLog>-->

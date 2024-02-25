@@ -1,0 +1,9 @@
+# Ignore build artifacts
+discussion/target
+authentication/target
+fileservice/target
+config.md
+common/target
+# Ignore IDE files
+.idea/
+.vscode/
