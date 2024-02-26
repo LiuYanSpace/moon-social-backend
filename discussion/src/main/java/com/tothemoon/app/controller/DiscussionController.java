@@ -74,8 +74,7 @@ public class DiscussionController {
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "lastPostedAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortOrder) {
-
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
 
         return ResponseEntity.ok( discussionService.getDiscussionWithComments(discussionId, pageable));
     }

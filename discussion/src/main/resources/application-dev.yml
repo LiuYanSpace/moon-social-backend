@@ -12,7 +12,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/flarum_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: rootroot
+    password: Yyj188706
     hikari:
       data-source-properties:
         cachePrepStmts: true

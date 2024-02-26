@@ -2,21 +2,13 @@ package com.tothemoon.app.service;
 
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
-import com.tothemoon.app.dto.DiscussionDetailDTO;
-import com.tothemoon.app.dto.DiscussionListDTO;
-import com.tothemoon.app.dto.BasicTagDTO;
-import com.tothemoon.app.dto.DiscussionDTO;
+import com.tothemoon.app.dto.*;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.PostMapper;
 import com.tothemoon.app.mapper.TagMapper;
-import com.tothemoon.common.entity.Discussion;
-import com.tothemoon.common.entity.DiscussionTag;
-import com.tothemoon.common.entity.Post;
-import com.tothemoon.common.entity.Tag;
-import com.tothemoon.common.repository.DiscussionRepository;
-import com.tothemoon.common.repository.DiscussionTagRepository;
-import com.tothemoon.common.repository.PostRepository;
-import com.tothemoon.common.repository.TagRepository;
+import com.tothemoon.app.mapper.UserMapper;
+import com.tothemoon.common.entity.*;
+import com.tothemoon.common.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -44,10 +36,12 @@ public class DiscussionService {
     private final DiscussionRepository discussionRepository;
     private final PostRepository postRepository;
     private final TagRepository tagRepository;
+    private final PostLikeRepository postLikeRepository;
     private final DiscussionTagRepository discussionTagRepository;
     private final DiscussionMapper discussionMapper;
     private final TagMapper tagMapper;
     private final PostMapper postMapper;
+    private final UserMapper userMapper;
 
 
     public DiscussionDetailDTO getDiscussionWithComments(Long discussionId, Pageable pageable) {
@@ -56,11 +50,28 @@ public class DiscussionService {
 
         List<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
         List<BasicTagDTO> tagDTOS =  getTagsByDiscussionId(discussionId);
+        List<BasicPostDTO> basicPostDTOS  = postMapper.toBasicPostList(comments);
+        List<PostDetailDTO> postList=new ArrayList<>();
+        PostDetailDTO postDetailDTO = new PostDetailDTO();
+        for(BasicPostDTO postDTO :basicPostDTOS){
+            long userId = postDTO.getUser().getId();
+            long postId = postDTO.getId();
+           List<PostLike> postLike = postLikeRepository.findByUserIdAndPostId(userId,postId);
+            postDetailDTO.setBasicPost(postDTO);
+            List<BasicUserInfoDTO> likeUsers = new ArrayList<>();
+            // TODO
+            List<BasicUserInfoDTO> replyUsers =new ArrayList<>();
+            for (PostLike like : postLike){
+                likeUsers.add(userMapper.toBasicUserInfoDTO(like.getUser()));
+            }
+            postDetailDTO.setLikeUsers(likeUsers);
+            postDetailDTO.setReplyUsers(replyUsers);
+            postList.add(postDetailDTO);
+        }
         DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
         discussionDetailDTO.setDiscussion(discussionMapper.toDTO(discussion));
-
         discussionDetailDTO.setTags(tagDTOS);
-        discussionDetailDTO.setPostList(postMapper.toBasicPostList(comments));
+        discussionDetailDTO.setPostList(postList);
         return discussionDetailDTO;
     }
 
