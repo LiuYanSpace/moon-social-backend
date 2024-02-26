@@ -2,10 +2,12 @@ package com.tothemoon.app.service;
 
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
-import com.tothemoon.app.dto.BasicDiscussionDTO;
+import com.tothemoon.app.dto.DiscussionDetailDTO;
+import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.dto.BasicTagDTO;
 import com.tothemoon.app.dto.DiscussionDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
+import com.tothemoon.app.mapper.PostMapper;
 import com.tothemoon.app.mapper.TagMapper;
 import com.tothemoon.common.entity.Discussion;
 import com.tothemoon.common.entity.DiscussionTag;
@@ -16,7 +18,6 @@ import com.tothemoon.common.repository.DiscussionTagRepository;
 import com.tothemoon.common.repository.PostRepository;
 import com.tothemoon.common.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @ClassName:DiscussionService
@@ -47,29 +47,31 @@ public class DiscussionService {
     private final DiscussionTagRepository discussionTagRepository;
     private final DiscussionMapper discussionMapper;
     private final TagMapper tagMapper;
+    private final PostMapper postMapper;
 
 
-    public Discussion getDiscussionWithComments(Long discussionId, Pageable pageable) {
+    public DiscussionDetailDTO getDiscussionWithComments(Long discussionId, Pageable pageable) {
         Discussion discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.Not_Found_Entity));
 
-        List<Post> comments = postRepository.findByDiscussionId(discussionId, pageable);
+        List<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
+        List<BasicTagDTO> tagDTOS =  getTagsByDiscussionId(discussionId);
+        DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
+        discussionDetailDTO.setDiscussion(discussionMapper.toDTO(discussion));
 
-//        DiscussionDetailDTO discussionDetailDTO = discussionMapper.toDetailDTO(discussion);
-//
-//        discussionDetailDTO.setPostList(comments);
-
-        return discussion;
+        discussionDetailDTO.setTags(tagDTOS);
+        discussionDetailDTO.setPostList(postMapper.toBasicPostList(comments));
+        return discussionDetailDTO;
     }
 
-    public Page<BasicDiscussionDTO> getDiscussionList(Pageable pageable) {
+    public Page<DiscussionListDTO> getDiscussionList(Pageable pageable) {
         Page<Discussion> discussionPage = discussionRepository.findByIsStickyFalseAndIsPrivateFalseAndIsApprovedTrue(pageable);
         List<Discussion> discussions = discussionPage.getContent();
-        List<BasicDiscussionDTO> basicDiscussionDTOS = cleanUpDiscussions(discussions);
-        return new PageImpl<>(basicDiscussionDTOS, pageable, discussionPage.getTotalElements());
+        List<DiscussionListDTO> discussionListDTOS = cleanUpDiscussions(discussions);
+        return new PageImpl<>(discussionListDTOS, pageable, discussionPage.getTotalElements());
     }
 
-    public List<BasicDiscussionDTO> getTopDiscussionList() {
+    public List<DiscussionListDTO> getTopDiscussionList() {
         List<Discussion> discussions = discussionRepository.findByIsStickyTrueAndIsPrivateFalseAndIsApprovedTrueOrderByLastPostedAtDesc();
         return cleanUpDiscussions(discussions);
     }
@@ -78,24 +80,28 @@ public class DiscussionService {
 //    public Object getDiscussionListByTag(Long tagId) {
 //    }
 
-    private List<BasicDiscussionDTO> cleanUpDiscussions(List<Discussion> discussions) {
+    private List<BasicTagDTO> getTagsByDiscussionId(long discussionId) {
+        List<DiscussionTag> discussionTags = discussionTagRepository.findByDiscussionId(discussionId);
+        List<Tag> tagsForDiscussion = new ArrayList<>();
+        for (DiscussionTag discussionTag : discussionTags) {
+            tagsForDiscussion.add(discussionTag.getTag());
+        }
+        return tagMapper.toBasicDTOList(tagsForDiscussion);
+    }
+
+    private List<DiscussionListDTO> cleanUpDiscussions(List<Discussion> discussions) {
         List<DiscussionDTO> discussionDTOs = discussionMapper.toDTOList(discussions);
-        List<BasicDiscussionDTO> basicDiscussionDTOS = new ArrayList<>();
+        List<DiscussionListDTO> discussionListDTOS = new ArrayList<>();
         for (DiscussionDTO discussionDTO : discussionDTOs) {
             Long discussionId = discussionDTO.getId();
-            List<DiscussionTag> discussionTags = discussionTagRepository.findByDiscussionId(discussionId);
-            List<Tag> tagsForDiscussion = new ArrayList<>();
-            for (DiscussionTag discussionTag : discussionTags) {
-                tagsForDiscussion.add(discussionTag.getTag());
-            }
-            List<BasicTagDTO> basicTagDTOs = tagMapper.toBasicDTOList(tagsForDiscussion);
-            BasicDiscussionDTO basicDiscussionDTO = new BasicDiscussionDTO();
-            basicDiscussionDTO.setDiscussion(discussionDTO);
-            basicDiscussionDTO.setTags(basicTagDTOs);
-            basicDiscussionDTOS.add(basicDiscussionDTO);
+            List<BasicTagDTO> basicTagDTOs = getTagsByDiscussionId(discussionId);
+            DiscussionListDTO discussionListDTO = new DiscussionListDTO();
+            discussionListDTO.setDiscussion(discussionDTO);
+            discussionListDTO.setTags(basicTagDTOs);
+            discussionListDTOS.add(discussionListDTO);
         }
 
-        return basicDiscussionDTOS;
+        return discussionListDTOS;
     }
 
 }

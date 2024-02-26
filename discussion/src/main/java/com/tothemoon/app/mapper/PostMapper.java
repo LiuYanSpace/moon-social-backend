@@ -14,6 +14,7 @@ public interface PostMapper {
     BasicPostDTO toBasicPostDTO(Post post);
     Post toEntity(PostDTO postDTO);
     List<PostDTO> toDTOList(List<Post> posts);
+    List<BasicPostDTO> toBasicPostList(List<Post> posts);
 
 
     @Named("toBasicPostDTO")

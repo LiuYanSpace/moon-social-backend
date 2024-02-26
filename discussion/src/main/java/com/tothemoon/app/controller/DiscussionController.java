@@ -1,7 +1,7 @@
 package com.tothemoon.app.controller;
 
-import com.tothemoon.app.dto.BasicDiscussionDTO;
-import com.tothemoon.app.dto.DiscussionDTO;
+import com.tothemoon.app.dto.DiscussionDetailDTO;
+import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.service.DiscussionService;
 import com.tothemoon.common.entity.Discussion;
@@ -31,32 +31,44 @@ public class DiscussionController {
     private DiscussionMapper discussionMapper;
 
     @GetMapping
-    public ResponseEntity<Page<BasicDiscussionDTO>> getDiscussionList(
+    public ResponseEntity<Page<DiscussionListDTO>> getDiscussionList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "lastPostedAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortOrder) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        Page<BasicDiscussionDTO> discussions = discussionService.getDiscussionList(pageable);
+        Page<DiscussionListDTO> discussions = discussionService.getDiscussionList(pageable);
         return ResponseEntity.ok(discussions);
     }
 
     @GetMapping("/sticky")
-    public ResponseEntity<List<BasicDiscussionDTO>> getTopDiscussionList() {
-        List<BasicDiscussionDTO> discussions = discussionService.getTopDiscussionList();
+    public ResponseEntity<List<DiscussionListDTO>> getTopDiscussionList() {
+        List<DiscussionListDTO> discussions = discussionService.getTopDiscussionList();
         return ResponseEntity.ok(discussions);
     }
 
 //    @GetMapping("/{tagId}")
-//    public ResponseEntity<Page<BasicDiscussionDTO>> getDiscussionListByTag(@PathVariable Long tagId
+//    public ResponseEntity<Page<DiscussionListDTO>> getDiscussionListByTag(@PathVariable Long tagId
 //    ) {
 //        return ResponseEntity.ok(discussionService.getDiscussionListByTag(tagId));
 //    }
 
-    // TODO
+    /***
+     *
+     * @param discussionId
+     * @param page
+     * @param size
+     * @param sortBy
+     * @param sortOrder
+     * @return
+     * TODO
+     *  need to fetch the posts (pagination),
+     *  hit-like of each post
+     *  who reply the post
+     */
     @GetMapping("/{discussionId}")
-    public ResponseEntity<Discussion> getDiscussionWithComments(
+    public ResponseEntity<DiscussionDetailDTO> getDiscussionWithComments(
             @PathVariable Long discussionId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
@@ -64,8 +76,7 @@ public class DiscussionController {
             @RequestParam(defaultValue = "DESC") String sortOrder) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Discussion discussion = discussionService.getDiscussionWithComments(discussionId, pageable);
 
-        return ResponseEntity.ok(discussion);
+        return ResponseEntity.ok( discussionService.getDiscussionWithComments(discussionId, pageable));
     }
 }

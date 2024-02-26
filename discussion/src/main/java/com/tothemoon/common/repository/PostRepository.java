@@ -14,5 +14,5 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByDiscussionId(Long discussionId, Pageable pageable);
+    List<Post> findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(Long discussionId, Pageable pageable);
 }
