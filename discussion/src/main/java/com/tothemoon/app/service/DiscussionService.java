@@ -44,9 +44,9 @@ public class DiscussionService {
     private final UserMapper userMapper;
 
 
-    public List<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
-        List<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
-        List<BasicPostDTO> basicPostDTOS = postMapper.toBasicPostList(comments);
+    public Page<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
+        Page<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
+        List<BasicPostDTO> basicPostDTOS = postMapper.toBasicPostList(comments.getContent());
         List<PostDetailDTO> postList = new ArrayList<>();
         for (BasicPostDTO postDTO : basicPostDTOS) {
             long postId = postDTO.getId();
@@ -63,7 +63,7 @@ public class DiscussionService {
             postDetailDTO.setReplyUsers(replyUsers);
             postList.add(postDetailDTO);
         }
-        return postList;
+        return new PageImpl<>( postList, pageable, comments.getTotalElements() );
     }
 
     public Page<DiscussionListDTO> getDiscussionList(Pageable pageable) {

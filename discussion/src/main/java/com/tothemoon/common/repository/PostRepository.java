@@ -1,6 +1,7 @@
 package com.tothemoon.common.repository;
 
 import com.tothemoon.common.entity.Post;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,5 +15,5 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(Long discussionId, Pageable pageable);
+    Page<Post> findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(Long discussionId, Pageable pageable);
 }

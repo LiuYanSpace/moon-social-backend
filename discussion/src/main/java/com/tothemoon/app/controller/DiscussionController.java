@@ -70,7 +70,7 @@ public class DiscussionController {
      *  who reply the post
      */
     @GetMapping("/posts/{discussionId}")
-    public ResponseEntity< List<PostDetailDTO> > getPostsByDiscussionId(
+    public ResponseEntity< Page<PostDetailDTO> > getPostsByDiscussionId(
             @PathVariable Long discussionId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
