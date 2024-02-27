@@ -8,5 +8,4 @@ import java.util.List;
 public class DiscussionListDTO {
     private DiscussionDTO discussion;
     private List<BasicTagDTO> tags;
-
 }

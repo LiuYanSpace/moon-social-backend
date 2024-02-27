@@ -7,5 +7,4 @@ import java.util.List;
 public class DiscussionDetailDTO {
     private DiscussionDTO discussion;
     private List<BasicTagDTO> tags;
-    private List<PostDetailDTO> postList;
 }

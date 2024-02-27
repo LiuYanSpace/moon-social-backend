@@ -44,35 +44,26 @@ public class DiscussionService {
     private final UserMapper userMapper;
 
 
-    public DiscussionDetailDTO getDiscussionWithComments(Long discussionId, Pageable pageable) {
-        Discussion discussion = discussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.Not_Found_Entity));
-
+    public List<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
         List<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
-        List<BasicTagDTO> tagDTOS =  getTagsByDiscussionId(discussionId);
-        List<BasicPostDTO> basicPostDTOS  = postMapper.toBasicPostList(comments);
-        List<PostDetailDTO> postList=new ArrayList<>();
-        PostDetailDTO postDetailDTO = new PostDetailDTO();
-        for(BasicPostDTO postDTO :basicPostDTOS){
-            long userId = postDTO.getUser().getId();
+        List<BasicPostDTO> basicPostDTOS = postMapper.toBasicPostList(comments);
+        List<PostDetailDTO> postList = new ArrayList<>();
+        for (BasicPostDTO postDTO : basicPostDTOS) {
             long postId = postDTO.getId();
-           List<PostLike> postLike = postLikeRepository.findByUserIdAndPostId(userId,postId);
-            postDetailDTO.setBasicPost(postDTO);
+            List<PostLike> postLike = postLikeRepository.findByPostId( postId);
             List<BasicUserInfoDTO> likeUsers = new ArrayList<>();
             // TODO
-            List<BasicUserInfoDTO> replyUsers =new ArrayList<>();
-            for (PostLike like : postLike){
+            List<BasicUserInfoDTO> replyUsers = new ArrayList<>();
+            for (PostLike like : postLike) {
                 likeUsers.add(userMapper.toBasicUserInfoDTO(like.getUser()));
             }
+            PostDetailDTO postDetailDTO = new PostDetailDTO();
+            postDetailDTO.setBasicPost(postDTO);
             postDetailDTO.setLikeUsers(likeUsers);
             postDetailDTO.setReplyUsers(replyUsers);
             postList.add(postDetailDTO);
         }
-        DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
-        discussionDetailDTO.setDiscussion(discussionMapper.toDTO(discussion));
-        discussionDetailDTO.setTags(tagDTOS);
-        discussionDetailDTO.setPostList(postList);
-        return discussionDetailDTO;
+        return postList;
     }
 
     public Page<DiscussionListDTO> getDiscussionList(Pageable pageable) {
@@ -90,6 +81,18 @@ public class DiscussionService {
     //
 //    public Object getDiscussionListByTag(Long tagId) {
 //    }
+
+    public DiscussionDetailDTO getDiscussionWithTagsById(Long discussionId) {
+        DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
+        discussionDetailDTO.setDiscussion(getDiscussionById(discussionId));
+        discussionDetailDTO.setTags(getTagsByDiscussionId(discussionId));
+        return discussionDetailDTO;
+    }
+
+    private DiscussionDTO getDiscussionById(Long discussionId) {
+        Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.Not_Found_Entity));
+        return discussionMapper.toDTO(discussion);
+    }
 
     private List<BasicTagDTO> getTagsByDiscussionId(long discussionId) {
         List<DiscussionTag> discussionTags = discussionTagRepository.findByDiscussionId(discussionId);

@@ -1,7 +1,9 @@
 package com.tothemoon.app.controller;
 
+import com.tothemoon.app.dto.DiscussionDTO;
 import com.tothemoon.app.dto.DiscussionDetailDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
+import com.tothemoon.app.dto.PostDetailDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.service.DiscussionService;
 import com.tothemoon.common.entity.Discussion;
@@ -67,15 +69,19 @@ public class DiscussionController {
      *  hit-like of each post
      *  who reply the post
      */
-    @GetMapping("/{discussionId}")
-    public ResponseEntity<DiscussionDetailDTO> getDiscussionWithComments(
+    @GetMapping("/posts/{discussionId}")
+    public ResponseEntity< List<PostDetailDTO> > getPostsByDiscussionId(
             @PathVariable Long discussionId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "lastPostedAt") String sortBy,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortOrder) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        return ResponseEntity.ok(discussionService.getPostsByDiscussionId(discussionId, pageable));
+    }
 
-        return ResponseEntity.ok( discussionService.getDiscussionWithComments(discussionId, pageable));
+    @GetMapping("/{discussionId}")
+    public ResponseEntity<DiscussionDetailDTO> getDiscussionById(@PathVariable Long discussionId) {
+        return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
 }
