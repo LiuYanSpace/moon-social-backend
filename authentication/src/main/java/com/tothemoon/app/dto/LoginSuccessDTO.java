@@ -4,6 +4,8 @@ import com.bird.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Data
 public class LoginSuccessDTO {
@@ -11,7 +13,7 @@ public class LoginSuccessDTO {
     private String jwt;
     private String nickName;
     private String email;
-    private Role role;
+    private List<String> role;
     private String userName;
 
 }

@@ -42,9 +42,7 @@ public class AuthenticationController {
 
             String identification = loginRequest.getIdentification();
             String password =  loginRequest.getPassword();
-
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(identification,password));
-
             log.info(loginRequest.getIdentification() + " successfully login");
         } catch (AuthenticationException e) {
             log.info(loginRequest.getIdentification() + " failed to login");
@@ -61,7 +59,7 @@ public class AuthenticationController {
                 userDetails.getId(),
                 jwt, userDetails.getNickName(),
                 userDetails.getEmail(),
-                Role.valueOf(roles.get(0)),
+                roles,
                 userDetails.getUsername()));
     }
 
