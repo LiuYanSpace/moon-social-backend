@@ -1,4 +1,5 @@
 package com.tothemoon.app.controller;
+
 import com.tothemoon.app.dto.*;
 import com.tothemoon.app.service.AuthenticationService;
 import com.tothemoon.app.service.UserService;
@@ -51,14 +52,18 @@ public class AuthenticationController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        return ResponseEntity.ok(new LoginSuccessDTO(jwt, userDetails.getNickName(), userDetails.getEmail(),
-                Role.valueOf(roles.get(0)), userDetails.getUsername()));
+        return ResponseEntity.ok(new LoginSuccessDTO(
+                userDetails.getId(),
+                jwt, userDetails.getNickName(),
+                userDetails.getEmail(),
+                Role.valueOf(roles.get(0)),
+                userDetails.getUsername()));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
         userService.registerNewUser(registerDTO);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/forgotPassword")

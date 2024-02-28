@@ -26,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.authorities = Lists.newArrayList(new SimpleGrantedAuthority(Role.ROLE_OWNER.name()));
+        this.authorities = Lists.newArrayList(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()));
         this.nickName = user.getNickname();
         this.userName = user.getUsername();
     }

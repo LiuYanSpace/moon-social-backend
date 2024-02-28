@@ -7,9 +7,11 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class LoginSuccessDTO {
+    private Long id;
     private String jwt;
     private String nickName;
     private String email;
     private Role role;
     private String userName;
+
 }

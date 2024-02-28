@@ -31,6 +31,13 @@ microservices 微服务
 
 ## Auth module
 
+### /api/auth
+
+- [ ] /login
+- [ ] /register
+- [ ] /forget-password
+- [ ] /reset-password
+
 
 
 ## Discussion module
@@ -47,6 +54,7 @@ microservices 微服务
 
 **POST**  需要关联auth模块
 发帖，title，content
+
 **GET**
 - [x] /{discussionId}) 分页获取帖子内容,包括点赞，回复等
 
