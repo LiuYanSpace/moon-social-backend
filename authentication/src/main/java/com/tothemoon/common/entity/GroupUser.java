@@ -13,15 +13,19 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "group_user")
 public class GroupUser {
-    @Id
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
 
-    @Id
-    @Column(name = "group_id", nullable = false)
-    private Long groupId;
+    @EmbeddedId
+    private GroupUserId id;
+    @ManyToOne
+    @MapsId("user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
+    @ManyToOne
+    @MapsId("group_id")
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
+
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 }

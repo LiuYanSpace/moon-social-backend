@@ -14,7 +14,6 @@ import java.util.Date;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name_singular", nullable = false, length = 100)

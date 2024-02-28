@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,12 +34,16 @@ public class AuthenticationController {
     private final JwtUtils jwtUtils;
     private final AuthenticationService authService;
     private final UserService userService;
-
+    private final PasswordEncoder encoder;
     @PostMapping("/login")
     public ResponseEntity<LoginSuccessDTO> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
         Authentication authentication = null;
-        try {
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getIdentification(), loginRequest.getPassword()));
+        try        {
+
+            String identification = loginRequest.getIdentification();
+            String password =  loginRequest.getPassword();
+
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(identification,password));
 
             log.info(loginRequest.getIdentification() + " successfully login");
         } catch (AuthenticationException e) {
