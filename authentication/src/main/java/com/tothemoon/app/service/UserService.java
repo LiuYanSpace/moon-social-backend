@@ -44,6 +44,8 @@ public class UserService {
         if (userRepository.existsByEmail(registerDTO.getEmail())) {
             throw new ConflictRequestException(ErrorReasonCode.Duplicated_UserEmail);
         }
+        // TODO verify door-key
+
         User user = new User();
         user.setNickname(registerDTO.getNickName());
         user.setEmail(registerDTO.getEmail());
