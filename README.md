@@ -33,11 +33,31 @@ microservices 微服务
 
 ### /api/auth
 
-- [x] /login
-- [x] /register
-- [ ] /forget-password
-- [ ] /reset-password
+#### POST
 
+- [x] login
+- [x] register
+- [ ] forget-password
+- [ ] reset-password
+- 
+#### DELETE
+- [ ] DELETE {userId}
+
+### /api/users
+
+#### GET
+
+- [ ] get user info
+- [ ] {userId}  -- check other user
+- [ ] follow-unfollow/{userId}  -- follow/unfollow
+
+#### PUT
+
+- [ ]update UserInfo 
+
+#### POST
+
+- [ ]update UserInfo
 
 
 ## Discussion module
