@@ -45,10 +45,8 @@ public class UserService {
 
 
     public void registerNewUser(RegisterDTO registerDTO) {
-        if (userRepository.existsByEmail(registerDTO.getEmail())) {
-            throw new ConflictRequestException(ErrorReasonCode.Duplicated_UserEmail);
-        }
-        String key = registerDTO.getDoorKey();
+
+        String key = registerDTO.getFofDoorKey();
         DoorKey doorKey = doorkeyRepository.findByKey(key)
                 .filter(d -> d.getMaxUses() > d.getUses() + 1)
                 .orElseThrow(() -> new BadRequestException(ErrorReasonCode.Doorkey_Wrong));
@@ -56,6 +54,14 @@ public class UserService {
         if (doorKey.getMaxUses() < doorKey.getUses() + 1) {
             throw new BadRequestException(ErrorReasonCode.Doorkey_Max);
         }
+
+        if (userRepository.existsByEmail(registerDTO.getEmail())) {
+            throw new ConflictRequestException(ErrorReasonCode.Duplicated_UserEmail);
+        }
+        if (userRepository.existsByUsername(registerDTO.getUsername())) {
+            throw new ConflictRequestException(ErrorReasonCode.Duplicated_Username);
+        }
+
 
         User user = new User();
         user.setNickname(registerDTO.getNickName());

@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT gu.group FROM GroupUser gu WHERE gu.user = :user")
     List<Group> findGroupsByUser(@Param("user") User user);
+
+    boolean existsByUsername(String username);
 }
