@@ -2,7 +2,6 @@ package com.tothemoon.common.repository;
 
 import com.tothemoon.common.entity.PostLike;
 import com.tothemoon.common.entity.PostLikeId;
-import com.tothemoon.common.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

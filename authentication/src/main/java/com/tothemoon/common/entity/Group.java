@@ -10,10 +10,11 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table(name = "groups")
+@Table(name = "`groups`")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, columnDefinition = "int unsigned")
     private Long id;
 
     @Column(name = "name_singular", nullable = false, length = 100)

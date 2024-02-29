@@ -16,12 +16,12 @@ public class GroupUser {
 
     @EmbeddedId
     private GroupUserId id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("user_id")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("group_id")
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
