@@ -7,7 +7,9 @@ import com.bird.exception.BadRequestException;
 import com.bird.exception.ConflictRequestException;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
+import com.tothemoon.common.entity.DoorKey;
 import com.tothemoon.common.entity.User;
+import com.tothemoon.common.repository.DoorkeyRepository;
 import com.tothemoon.common.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -24,6 +27,7 @@ import java.util.Objects;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final DoorkeyRepository doorkeyRepository;
     private final PasswordEncoder encoder;
 
     public void resetPassword(String resetKey, String password) {
@@ -44,13 +48,20 @@ public class UserService {
         if (userRepository.existsByEmail(registerDTO.getEmail())) {
             throw new ConflictRequestException(ErrorReasonCode.Duplicated_UserEmail);
         }
-        // TODO verify door-key
+        String key = registerDTO.getDoorKey();
+        DoorKey doorKey = doorkeyRepository.findByKey(key)
+                .filter(d -> d.getMaxUses() > d.getUses() + 1)
+                .orElseThrow(() -> new BadRequestException(ErrorReasonCode.Doorkey_Wrong));
+
+        if (doorKey.getMaxUses() < doorKey.getUses() + 1) {
+            throw new BadRequestException(ErrorReasonCode.Doorkey_Max);
+        }
 
         User user = new User();
         user.setNickname(registerDTO.getNickName());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(encoder.encode(registerDTO.getPassword()));
-        user.setInviteCode(registerDTO.getDoorKey());
+        user.setInviteCode(key);
         userRepository.save(user);
     }
 
@@ -63,7 +74,7 @@ public class UserService {
     }
 
     public String getAndUpdateMemberProfileImage(String imageUrl) {
-        User preUser= getUser();
+        User preUser = getUser();
         preUser.setAvatarUrl(imageUrl);
         userRepository.save(preUser);
         return preUser.getAvatarUrl();

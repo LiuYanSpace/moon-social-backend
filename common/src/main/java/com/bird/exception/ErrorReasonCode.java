@@ -4,7 +4,8 @@ public enum ErrorReasonCode {
     Invalid_Username_Password, // username or password is incorrect for login
     Duplicated_Username, // username is already used when creating a new user
     Duplicated_UserEmail, // username is already used when creating a new user
-    Duplicated_ServicePartner, // service partner is already created
+    Doorkey_Wrong, // service partner is already created
+    Doorkey_Max, // service partner is already created
     Not_Allowed_User, // the user is not allowed to call the specific API
     Not_Found_Entity, // the entity the caller tries to update/delete doesn't exist
     Invalid_Reset_Key, // the token for password reset is not valid
