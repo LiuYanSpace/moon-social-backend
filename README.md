@@ -33,8 +33,8 @@ microservices 微服务
 
 ### /api/auth
 
-- [ ] /login
-- [ ] /register
+- [x] /login
+- [x] /register
 - [ ] /forget-password
 - [ ] /reset-password
 
