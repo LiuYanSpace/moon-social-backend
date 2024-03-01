@@ -1,5 +1,6 @@
 package com.tothemoon.app.controller;
 
+import com.bird.dto.Pagination;
 import com.tothemoon.app.dto.DiscussionDTO;
 import com.tothemoon.app.dto.DiscussionDetailDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
@@ -19,7 +20,7 @@ import java.util.List;
 
 /**
  * @ClassName:DiscussionController
- * @Auther: yyj
+ * @Author: yyj
  * @Description:
  * @Date: 19/02/2024 19:45
  * @Version: v1.0
@@ -33,14 +34,14 @@ public class DiscussionController {
     private DiscussionMapper discussionMapper;
 
     @GetMapping
-    public ResponseEntity<Page<DiscussionListDTO>> getDiscussionList(
+    public ResponseEntity<Pagination> getDiscussionList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "lastPostedAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortOrder) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        Page<DiscussionListDTO> discussions = discussionService.getDiscussionList(pageable);
+        Pagination discussions = discussionService.getDiscussionList(pageable);
         return ResponseEntity.ok(discussions);
     }
 

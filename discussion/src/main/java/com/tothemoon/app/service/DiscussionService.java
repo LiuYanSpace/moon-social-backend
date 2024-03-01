@@ -1,5 +1,6 @@
 package com.tothemoon.app.service;
 
+import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
 import com.tothemoon.app.dto.*;
@@ -66,11 +67,17 @@ public class DiscussionService {
         return new PageImpl<>( postList, pageable, comments.getTotalElements() );
     }
 
-    public Page<DiscussionListDTO> getDiscussionList(Pageable pageable) {
+    public Pagination getDiscussionList(Pageable pageable) {
         Page<Discussion> discussionPage = discussionRepository.findByIsStickyFalseAndIsPrivateFalseAndIsApprovedTrue(pageable);
         List<Discussion> discussions = discussionPage.getContent();
         List<DiscussionListDTO> discussionListDTOS = cleanUpDiscussions(discussions);
-        return new PageImpl<>(discussionListDTOS, pageable, discussionPage.getTotalElements());
+        Pagination pagination = new Pagination();
+        pagination.setSize(discussionPage.getSize());
+        pagination.setCurrPage(discussionPage.getNumber());
+        pagination.setTotalElements(discussionPage.getTotalElements());
+        pagination.setTotalPages(discussionPage.getTotalPages());
+        pagination.setContent(discussionListDTOS);
+        return pagination;
     }
 
     public List<DiscussionListDTO> getTopDiscussionList() {

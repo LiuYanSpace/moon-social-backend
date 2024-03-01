@@ -110,8 +110,6 @@ public class User {
 //    @Column(name = "countryCode", nullable = false, columnDefinition = "TEXT")
 //    private String countryCode;
 
-    @Column(name = "carving_contest_entry_count", nullable = false)
-    private Integer carvingContestEntryCount = 0;
 
     @Column(name = "money", nullable = false)
     private Double money = 0.0;

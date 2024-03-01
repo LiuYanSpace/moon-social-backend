@@ -47,7 +47,7 @@ microservices 微服务
 
 #### GET
 
-- [ ] get user info
+- [x] get user info
 - [ ] {userId}  -- check other user
 - [ ] follow-unfollow/{userId}  -- follow/unfollow
 
@@ -70,6 +70,8 @@ microservices 微服务
 - [x] getPostsByDiscussionId/{discussionId}  获取某个帖子
 - [ ] getDiscussionListByTag(/{tagId}) 根据tag标签获取帖子list
 
+
+
 ### /api/discussions/posts
 
 **POST**  需要关联auth模块
@@ -77,6 +79,16 @@ microservices 微服务
 
 **GET**
 - [x] /{discussionId}) 分页获取帖子内容,包括点赞，回复等
+
+
+### /api/collections
+
+**GET**
+- [ ] getCollection 获取自己的收藏夹
+- [ ] getCollectionByUserId 获取别人的收藏夹
+
+**POST**
+- [ ] createCollection 获取自己的收藏夹
 
 
 
