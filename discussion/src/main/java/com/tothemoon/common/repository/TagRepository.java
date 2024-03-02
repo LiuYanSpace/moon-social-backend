@@ -2,6 +2,7 @@ package com.tothemoon.common.repository;
 
 import com.tothemoon.common.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface TagRepository extends JpaRepository<Tag, Long> {
+    @Query("SELECT t FROM Tag t WHERE t.parentTag IS NULL")
+    List<Tag> getParentTag();
 }

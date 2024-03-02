@@ -1,6 +1,7 @@
 package com.tothemoon.app.dto;
 
 import com.tothemoon.common.entity.Discussion;
+import com.tothemoon.common.entity.Tag;
 import com.tothemoon.common.entity.User;
 import lombok.*;
 
@@ -16,17 +17,12 @@ public class TagDTO {
     private String description;
     private String color;
     private Integer position;
-    private List<TagDTO> children;
-    private Boolean isRestricted = false;
-    private Boolean isHidden = false;
+    private TagDTO parentTag;
     private Integer discussionCount = 0;
     private Date lastPostedAt;
-    private Discussion lastPostedDiscussion;
-    private User lastPostedUser;
+    private BasicDiscussionDTO lastPostedDiscussion;
+    private BasicUserInfoDTO lastPostedUser;
     private String icon;
-    private String template;
-    private String password;
-    private Integer postCount = 0;
     private Integer excerptLength;
     private Boolean richExcerpts;
 }

@@ -51,7 +51,7 @@ public class DiscussionService {
         List<PostDetailDTO> postList = new ArrayList<>();
         for (BasicPostDTO postDTO : basicPostDTOS) {
             long postId = postDTO.getId();
-            List<PostLike> postLike = postLikeRepository.findByPostId( postId);
+            List<PostLike> postLike = postLikeRepository.findByPostId(postId);
             List<BasicUserInfoDTO> likeUsers = new ArrayList<>();
             // TODO
             List<BasicUserInfoDTO> replyUsers = new ArrayList<>();
@@ -64,7 +64,7 @@ public class DiscussionService {
             postDetailDTO.setReplyUsers(replyUsers);
             postList.add(postDetailDTO);
         }
-        return new PageImpl<>( postList, pageable, comments.getTotalElements() );
+        return new PageImpl<>(postList, pageable, comments.getTotalElements());
     }
 
     public Pagination getDiscussionList(Pageable pageable) {
@@ -85,10 +85,24 @@ public class DiscussionService {
         return cleanUpDiscussions(discussions);
     }
 
-    //
-//    public Object getDiscussionListByTag(Long tagId) {
-//    }
 
+    public List<DiscussionDTO> getDiscussionsByTagId(Long tagId) {
+        List<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId);
+        List<DiscussionDTO> list = new ArrayList<>();
+        for (DiscussionTag discussionTag : discussionTags) {
+            System.out.println(discussionTag.getDiscussion().getId());
+            list.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
+        }
+        return list;
+    }
+
+
+    public List<TagDTO> getParentTag() {
+        List<Tag> tags =   tagRepository.findAll();
+
+        return  tagMapper.toDTOList(tags);
+
+    }
     public DiscussionDetailDTO getDiscussionWithTagsById(Long discussionId) {
         DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
         discussionDetailDTO.setDiscussion(getDiscussionById(discussionId));

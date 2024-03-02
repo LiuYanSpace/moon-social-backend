@@ -19,13 +19,13 @@ public class CollectionService {
 
     private final DiscussionListRepository discussionListRepository;
 
-    public Pagination getDiscussionCollections(Pageable pageable) {
-        Long userId = SecurityUtil.getCurrentUserId();
-        List<DiscussionList> collections =getDiscussionListsByUserId(userId);
-
-
-
-    }
+//    public Pagination getDiscussionCollections(Pageable pageable) {
+//        Long userId = SecurityUtil.getCurrentUserId();
+//        List<DiscussionList> collections =getDiscussionListsByUserId(userId);
+//
+//
+//
+//    }
 
 
     private List<DiscussionList> getDiscussionListsByUserId(Long userId) {

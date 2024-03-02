@@ -13,6 +13,7 @@ import java.util.List;
 public interface TagMapper {
     TagDTO toDTO(Tag tag);
     Tag toEntity(TagDTO tagDTO);
+
     List<TagDTO> toDTOList(List<Tag> tags);
     @Mappings({
             @Mapping(target = "id", source = "id"),

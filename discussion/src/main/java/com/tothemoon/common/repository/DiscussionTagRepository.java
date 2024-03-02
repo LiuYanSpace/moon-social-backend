@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface DiscussionTagRepository extends JpaRepository<DiscussionTag, DiscussionTag.Id> {
     List<DiscussionTag> findByDiscussionId(Long discussionId);
+
+    List<DiscussionTag> findByTagId(Long tagId);
 }

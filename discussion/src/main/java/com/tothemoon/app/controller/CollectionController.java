@@ -21,16 +21,16 @@ public class CollectionController {
     private CollectionService collectionService;
 
 
-
-    @GetMapping
-    public ResponseEntity<Pagination> getDiscussionCollections(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "lastPostedAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable));
-    }
+//
+//    @GetMapping
+//    public ResponseEntity<Pagination> getDiscussionCollections(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size,
+//            @RequestParam(defaultValue = "lastPostedAt") String sortBy,
+//            @RequestParam(defaultValue = "DESC") String sortOrder) {
+//
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+//        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable));
+//    }
 
 }

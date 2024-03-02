@@ -85,4 +85,17 @@ public class DiscussionController {
     public ResponseEntity<DiscussionDetailDTO> getDiscussionById(@PathVariable Long discussionId) {
         return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
+
+    @GetMapping("/tags/{tagId}")
+    public ResponseEntity<?> getDiscussionsByTagId(@PathVariable Long tagId) {
+        return ResponseEntity.ok( discussionService.getDiscussionsByTagId(tagId));
+    }
+
+    @GetMapping("/tags/parent")
+    public ResponseEntity<?> getParentTag() {
+        return ResponseEntity.ok( discussionService.getParentTag());
+    }
+
+
+
 }
