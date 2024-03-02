@@ -88,7 +88,9 @@ public class DiscussionController {
 
     @GetMapping("/tags/{tagId}")
     public ResponseEntity<?> getDiscussionsByTagId(@PathVariable Long tagId) {
-        return ResponseEntity.ok( discussionService.getDiscussionsByTagId(tagId));
+        Pageable pageable = PageRequest.of(0, 10);
+
+        return ResponseEntity.ok( discussionService.getDiscussionsByTagId(tagId,pageable));
     }
 
     @GetMapping("/tags/parent")

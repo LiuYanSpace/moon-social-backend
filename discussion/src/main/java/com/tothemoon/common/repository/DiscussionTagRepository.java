@@ -1,6 +1,8 @@
 package com.tothemoon.common.repository;
 
 import com.tothemoon.common.entity.DiscussionTag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,5 +16,5 @@ import java.util.List;
 public interface DiscussionTagRepository extends JpaRepository<DiscussionTag, DiscussionTag.Id> {
     List<DiscussionTag> findByDiscussionId(Long discussionId);
 
-    List<DiscussionTag> findByTagId(Long tagId);
+    Page<DiscussionTag> findByTagId(Long tagId, Pageable pageable);
 }

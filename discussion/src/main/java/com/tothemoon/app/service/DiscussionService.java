@@ -86,14 +86,20 @@ public class DiscussionService {
     }
 
 
-    public List<DiscussionDTO> getDiscussionsByTagId(Long tagId) {
-        List<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId);
+    public Pagination getDiscussionsByTagId(Long tagId,   Pageable pageable ) {
+        Page<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId,pageable);
         List<DiscussionDTO> list = new ArrayList<>();
-        for (DiscussionTag discussionTag : discussionTags) {
-            System.out.println(discussionTag.getDiscussion().getId());
+        for (DiscussionTag discussionTag : discussionTags.getContent()) {
             list.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
         }
-        return list;
+
+        Pagination pagination = new Pagination();
+        pagination.setSize(discussionTags.getSize());
+        pagination.setCurrPage(discussionTags.getNumber());
+        pagination.setTotalElements(discussionTags.getTotalElements());
+        pagination.setTotalPages(discussionTags.getTotalPages());
+        pagination.setContent(list);
+        return pagination;
     }
 
 
