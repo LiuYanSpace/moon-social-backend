@@ -51,11 +51,6 @@ public class DiscussionController {
         return ResponseEntity.ok(discussions);
     }
 
-//    @GetMapping("/{tagId}")
-//    public ResponseEntity<Page<DiscussionListDTO>> getDiscussionListByTag(@PathVariable Long tagId
-//    ) {
-//        return ResponseEntity.ok(discussionService.getDiscussionListByTag(tagId));
-//    }
 
     /***
      *
