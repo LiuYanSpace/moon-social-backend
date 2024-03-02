@@ -45,6 +45,7 @@ public class DiscussionService {
     private final UserMapper userMapper;
 
 
+    //TODO Page to Pagination
     public Page<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
         Page<Post> comments = postRepository.findByDiscussionIdAndIsSpamFalseAndIsPrivateFalseAndIsApprovedTrue(discussionId, pageable);
         List<BasicPostDTO> basicPostDTOS = postMapper.toBasicPostList(comments.getContent());
@@ -86,6 +87,7 @@ public class DiscussionService {
     }
 
 
+    //TODO move to TagController
     public Pagination getDiscussionsByTagId(Long tagId,   Pageable pageable ) {
         Page<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId,pageable);
         List<DiscussionDTO> list = new ArrayList<>();
@@ -103,6 +105,7 @@ public class DiscussionService {
     }
 
 
+    //TODO move to TagController and filter parentId is null
     public List<TagDTO> getParentTag() {
         List<Tag> tags =   tagRepository.findAll();
 
