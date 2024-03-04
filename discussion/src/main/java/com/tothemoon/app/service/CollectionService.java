@@ -1,9 +1,15 @@
 package com.tothemoon.app.service;
 
 import com.bird.dto.Pagination;
+import com.bird.exception.BadRequestException;
+import com.bird.exception.ErrorReasonCode;
+import com.bird.exception.NotFoundRequestException;
+import com.bird.utils.PaginationUtils;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
 import com.tothemoon.app.mapper.DiscussionListMapper;
+import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.common.config.SecurityUtil;
+import com.tothemoon.common.entity.Discussion;
 import com.tothemoon.common.entity.DiscussionCollection;
 import com.tothemoon.common.entity.DiscussionCollectionItem;
 import com.tothemoon.common.repository.DiscussionCollectionItemRepository;
@@ -14,7 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,6 +33,7 @@ public class CollectionService {
     private final DiscussionCollectionRepository discussionCollectionRepository;
     private final DiscussionCollectionItemRepository discussionCollectionItemRepository;
     private final DiscussionListMapper discussionListMapper;
+    private final DiscussionMapper discussionMapper;
 
     public Pagination getDiscussionCollections(Pageable pageable) {
         Long userId = SecurityUtil.getCurrentUserId();
@@ -39,26 +48,25 @@ public class CollectionService {
     }
 
     public Pagination getDiscussionCollectionsItems(Long listId, Pageable pageable) {
-        List<DiscussionCollectionItem> discussionCollectionItems =  discussionCollectionItemRepository.findByListId(listId);
-        Pagination pagination = new Pagination();
-        pagination.setSize(0);
-        pagination.setCurrPage(10);
-        pagination.setTotalElements(2);
-        pagination.setTotalPages(1);
-        pagination.setContent(discussionCollectionItems);
-        return pagination;
+        DiscussionCollection discussionList = discussionCollectionRepository.findById(listId).orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.ACCESS_Denied));
 
+        Long userId = SecurityUtil.getCurrentUserId();
+        assert discussionList != null;
+        if (!Objects.equals(discussionList.getUser().getId(), userId) && Objects.equals(discussionList.getVisibility(), "private")) {
+            throw new NotFoundRequestException(ErrorReasonCode.ACCESS_Denied);
+        }
 
+        Page<DiscussionCollectionItem> discussionCollectionItems = discussionCollectionItemRepository.findByDiscussionList(discussionList, pageable);
+        List<Discussion> discussions = new ArrayList<>();
+        for (DiscussionCollectionItem item : discussionCollectionItems.getContent()) {
+            discussions.add(item.getDiscussion());
+        }
+        return PaginationUtils.wrapPagination(discussionCollectionItems, discussionMapper.toDTOList(discussions));
     }
+
     private Pagination cleanUpDiscussionCollections(Page<DiscussionCollection> collections) {
         List<DiscussionCollectionDTO> collectionDTOList = discussionListMapper.toDTOList(collections.getContent());
-        Pagination pagination = new Pagination();
-        pagination.setSize(collections.getSize());
-        pagination.setCurrPage(collections.getNumber());
-        pagination.setTotalElements(collections.getTotalElements());
-        pagination.setTotalPages(collections.getTotalPages());
-        pagination.setContent(collectionDTOList);
-        return pagination;
+        return PaginationUtils.wrapPagination(collections, collectionDTOList);
     }
 
 
