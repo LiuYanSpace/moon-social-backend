@@ -84,11 +84,12 @@ microservices 微服务
 ### /api/collections
 
 **GET**
-- [ ] getCollection 获取自己的收藏夹
-- [ ] getCollectionByUserId 获取别人的收藏夹
+- [x] getDiscussionCollections 获取自己的收藏夹
+- [x] getDiscussionCollectionsByUserId 获取别人的收藏夹
+- [x] getDiscussionCollectionsById 获取收藏夹内容
 
 **POST**
-- [ ] createCollection 获取自己的收藏夹
+- [ ] createCollection 创建
 
 
 
