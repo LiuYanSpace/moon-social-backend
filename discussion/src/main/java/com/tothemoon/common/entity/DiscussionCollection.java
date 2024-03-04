@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "discussion_lists")
-public class DiscussionList {
+public class DiscussionCollection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

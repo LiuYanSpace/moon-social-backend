@@ -9,10 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/collections")
@@ -21,16 +18,38 @@ public class CollectionController {
     private CollectionService collectionService;
 
 
-//
-//    @GetMapping
-//    public ResponseEntity<Pagination> getDiscussionCollections(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size,
-//            @RequestParam(defaultValue = "lastPostedAt") String sortBy,
-//            @RequestParam(defaultValue = "DESC") String sortOrder) {
-//
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-//        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable));
-//    }
 
+    @GetMapping
+    public ResponseEntity<Pagination> getDiscussionCollections(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "updatedAt") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortOrder) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable));
+    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<Pagination> getDiscussionCollectionsByUserId(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "updatedAt") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortOrder) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        return ResponseEntity.ok(collectionService.getDiscussionCollectionsByUserId(userId,pageable));
+    }
+
+    @GetMapping("/details/{listId}")
+    public ResponseEntity<Pagination> getDiscussionCollectionsById(
+            @PathVariable Long listId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "updatedAt") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortOrder) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        return ResponseEntity.ok(collectionService.getDiscussionCollectionsItems(listId,pageable));
+    }
 }
