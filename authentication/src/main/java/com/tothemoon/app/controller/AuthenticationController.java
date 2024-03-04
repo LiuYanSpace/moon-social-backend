@@ -43,6 +43,7 @@ public class AuthenticationController {
             String identification = loginRequest.getIdentification();
             String password =  loginRequest.getPassword();
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(identification,password));
+            // TODO create an access_token record
             log.info(loginRequest.getIdentification() + " successfully login");
         } catch (AuthenticationException e) {
             log.info(loginRequest.getIdentification() + " failed to login");
