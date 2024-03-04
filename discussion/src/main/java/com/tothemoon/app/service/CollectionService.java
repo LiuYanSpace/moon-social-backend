@@ -1,10 +1,8 @@
 package com.tothemoon.app.service;
 
 import com.bird.dto.Pagination;
-import com.bird.exception.BadRequestException;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.ForbiddenRequestException;
-import com.bird.exception.NotFoundRequestException;
 import com.bird.utils.PaginationUtils;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
 import com.tothemoon.app.mapper.DiscussionListMapper;

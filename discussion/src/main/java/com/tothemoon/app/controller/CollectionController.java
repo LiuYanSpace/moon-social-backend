@@ -1,10 +1,8 @@
 package com.tothemoon.app.controller;
 
 import com.bird.dto.Pagination;
-import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
