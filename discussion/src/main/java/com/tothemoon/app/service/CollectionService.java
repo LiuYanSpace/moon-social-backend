@@ -3,6 +3,7 @@ package com.tothemoon.app.service;
 import com.bird.dto.Pagination;
 import com.bird.exception.BadRequestException;
 import com.bird.exception.ErrorReasonCode;
+import com.bird.exception.ForbiddenRequestException;
 import com.bird.exception.NotFoundRequestException;
 import com.bird.utils.PaginationUtils;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
@@ -48,12 +49,12 @@ public class CollectionService {
     }
 
     public Pagination getDiscussionCollectionsItems(Long listId, Pageable pageable) {
-        DiscussionCollection discussionList = discussionCollectionRepository.findById(listId).orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.ACCESS_Denied));
+        DiscussionCollection discussionList = discussionCollectionRepository.findById(listId).orElseThrow(() -> new ForbiddenRequestException(ErrorReasonCode.ACCESS_Denied));
 
         Long userId = SecurityUtil.getCurrentUserId();
         assert discussionList != null;
         if (!Objects.equals(discussionList.getUser().getId(), userId) && Objects.equals(discussionList.getVisibility(), "private")) {
-            throw new NotFoundRequestException(ErrorReasonCode.ACCESS_Denied);
+            throw new ForbiddenRequestException(ErrorReasonCode.ACCESS_Denied);
         }
 
         Page<DiscussionCollectionItem> discussionCollectionItems = discussionCollectionItemRepository.findByDiscussionList(discussionList, pageable);
