@@ -30,7 +30,7 @@ spring:
       hibernate.cache.use_query_cache: false
 
 server:
-  port: 8081
+  port: 8080
 
 
 jwt:

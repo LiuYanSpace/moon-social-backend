@@ -33,10 +33,10 @@ public class DiscussionCollection {
     @Column(name = "discussion_count", nullable = false)
     private Long discussionCount = 0L;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp updatedAt;
 
 }

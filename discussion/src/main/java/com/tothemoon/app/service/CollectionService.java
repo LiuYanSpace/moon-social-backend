@@ -4,6 +4,7 @@ import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.ForbiddenRequestException;
 import com.bird.utils.PaginationUtils;
+import com.tothemoon.app.client.AuthFeignClient;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
 import com.tothemoon.app.mapper.DiscussionListMapper;
 import com.tothemoon.app.mapper.DiscussionMapper;
@@ -11,6 +12,7 @@ import com.tothemoon.common.config.SecurityUtil;
 import com.tothemoon.common.entity.Discussion;
 import com.tothemoon.common.entity.DiscussionCollection;
 import com.tothemoon.common.entity.DiscussionCollectionItem;
+import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.DiscussionCollectionItemRepository;
 import com.tothemoon.common.repository.DiscussionCollectionRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class CollectionService {
     private final DiscussionCollectionItemRepository discussionCollectionItemRepository;
     private final DiscussionListMapper discussionListMapper;
     private final DiscussionMapper discussionMapper;
+    private final AuthFeignClient authFeignClient;
 
     public Pagination getDiscussionCollections(Pageable pageable) {
         Long userId = SecurityUtil.getCurrentUserId();
@@ -44,6 +47,17 @@ public class CollectionService {
     public Pagination getDiscussionCollectionsByUserId(Long userId, Pageable pageable) {
         Page<DiscussionCollection> collections = getDiscussionListsByUserId(userId, pageable, true);
         return cleanUpDiscussionCollections(collections);
+    }
+
+
+    public void createDiscussionCollection(DiscussionCollectionDTO collectionDTO) {
+        DiscussionCollection discussionCollection = discussionListMapper.toEntity(collectionDTO);
+        Long userId = SecurityUtil.getCurrentUserId();
+        // feign to get userId
+        User user = authFeignClient.getUserByUserId(userId).getBody();
+        discussionCollection.setUser(user);
+        discussionCollection.setDiscussionCount(0L);
+//        discussionCollectionRepository.save(discussionCollection);
     }
 
     public Pagination getDiscussionCollectionsItems(Long listId, Pageable pageable) {

@@ -1,11 +1,13 @@
 package com.tothemoon.app.controller;
 
 import com.bird.dto.Pagination;
+import com.tothemoon.app.dto.DiscussionCollectionDTO;
 import com.tothemoon.app.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +51,11 @@ public class CollectionController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         return ResponseEntity.ok(collectionService.getDiscussionCollectionsItems(listId,pageable));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createDiscussionCollection(@RequestBody DiscussionCollectionDTO collectionDTO) {
+        collectionService.createDiscussionCollection(collectionDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

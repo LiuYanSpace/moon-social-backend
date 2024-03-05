@@ -1,6 +1,7 @@
 package com.tothemoon.app.controller;
 
 import com.tothemoon.app.service.UserService;
+import com.tothemoon.common.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,4 +25,9 @@ public class PublicController {
         return new ResponseEntity< >( userService.getAndUpdateMemberProfileImage(imageUrl), HttpStatus.OK);
     }
 
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUserByUserId(@PathVariable Long userId){
+        return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+    }
 }
