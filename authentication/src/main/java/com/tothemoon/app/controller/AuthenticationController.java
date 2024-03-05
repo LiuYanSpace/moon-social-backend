@@ -43,7 +43,7 @@ public class AuthenticationController {
             String identification = loginRequest.getIdentification();
             String password =  loginRequest.getPassword();
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(identification,password));
-            // TODO create an access_token record
+
             log.info(loginRequest.getIdentification() + " successfully login");
         } catch (AuthenticationException e) {
             log.info(loginRequest.getIdentification() + " failed to login");
@@ -55,6 +55,10 @@ public class AuthenticationController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
+        // TODO create an access_token record
+        userService.createAccessToken(jwt);
+
 
         return ResponseEntity.ok(new LoginSuccessDTO(
                 userDetails.getId(),
