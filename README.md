@@ -14,6 +14,10 @@ https://xie.infoq.cn/article/a5cefe30dafcd09c983fd9591
 flutter theme
 https://rydmike.com/flexcolorscheme/themesplayground-latest/
 
+
+https://medium.com/@truongbui95/jwt-authentication-and-authorization-with-spring-boot-3-and-spring-security-6-2f90f9337421
+
+
 ## 技术栈
 Springboot + hibernate + mysql + liquibase
 Elasticsearch 全局搜索
