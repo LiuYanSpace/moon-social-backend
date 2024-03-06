@@ -4,7 +4,7 @@ import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.ForbiddenRequestException;
 import com.bird.utils.PaginationUtils;
-import com.tothemoon.app.client.AuthFeignClient;
+import com.tothemoon.app.feign.client.AuthFeignClient;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
 import com.tothemoon.app.mapper.DiscussionListMapper;
 import com.tothemoon.app.mapper.DiscussionMapper;
@@ -16,6 +16,7 @@ import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.DiscussionCollectionItemRepository;
 import com.tothemoon.common.repository.DiscussionCollectionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,8 @@ public class CollectionService {
     private final DiscussionCollectionItemRepository discussionCollectionItemRepository;
     private final DiscussionListMapper discussionListMapper;
     private final DiscussionMapper discussionMapper;
-    private final AuthFeignClient authFeignClient;
+    @Autowired
+    private  AuthFeignClient authFeignClient;
 
     public Pagination getDiscussionCollections(Pageable pageable) {
         Long userId = SecurityUtil.getCurrentUserId();

@@ -1,4 +1,4 @@
-package com.tothemoon.app.client;
+package com.tothemoon.app.feign.client;
 
 import com.tothemoon.common.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
