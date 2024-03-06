@@ -1,7 +1,7 @@
 package com.tothemoon.app.service;
 
 import com.bird.enums.FileType;
-import com.tothemoon.app.feign.client.AuthFeignClient;
+//import com.tothemoon.app.feign.client.AuthFeignClient;
 import com.tothemoon.common.config.S3FileManager;
 import com.tothemoon.common.entity.FileInfo;
 import com.tothemoon.common.repository.FileRepository;
@@ -25,8 +25,7 @@ import java.util.UUID;
 public class FileService {
     @Autowired
     private FileRepository fileRepository;
-    @Autowired
-    private AuthFeignClient authFeignClient;
+//    private final AuthFeignClient authFeignClient;
     private static final List<String> allowedImageContentTypes = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gjf");
     private final S3FileManager s3FileManager;
 
@@ -38,8 +37,8 @@ public class FileService {
         }
         String fileName = generateUniqueFileName(imageFile.getOriginalFilename());
         String url = s3FileManager.uploadAvatarImage(fileName, imageFile);
-        String original_logo = authFeignClient.getAndUpdateMemberProfileImage(url).getBody();
-        deleteOriginalImage(original_logo, FileType.AVATAR);
+//        String original_logo = authFeignClient.getAndUpdateMemberProfileImage(url).getBody();
+//        deleteOriginalImage(original_logo, FileType.AVATAR);
         return saveFile(imageFile, url, fileName);
     }
 

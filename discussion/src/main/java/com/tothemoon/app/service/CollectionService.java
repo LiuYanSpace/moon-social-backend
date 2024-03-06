@@ -4,8 +4,8 @@ import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.ForbiddenRequestException;
 import com.bird.utils.PaginationUtils;
-import com.tothemoon.app.feign.client.AuthFeignClient;
 import com.tothemoon.app.dto.DiscussionCollectionDTO;
+import com.tothemoon.app.feign.client.ExternalAuthClient;
 import com.tothemoon.app.mapper.DiscussionListMapper;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.common.config.SecurityUtil;
@@ -16,7 +16,6 @@ import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.DiscussionCollectionItemRepository;
 import com.tothemoon.common.repository.DiscussionCollectionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,8 +35,7 @@ public class CollectionService {
     private final DiscussionCollectionItemRepository discussionCollectionItemRepository;
     private final DiscussionListMapper discussionListMapper;
     private final DiscussionMapper discussionMapper;
-    @Autowired
-    private  AuthFeignClient authFeignClient;
+    private final ExternalAuthClient externalAuthClient;
 
     public Pagination getDiscussionCollections(Pageable pageable) {
         Long userId = SecurityUtil.getCurrentUserId();
@@ -56,7 +54,8 @@ public class CollectionService {
         DiscussionCollection discussionCollection = discussionListMapper.toEntity(collectionDTO);
         Long userId = SecurityUtil.getCurrentUserId();
         // feign to get userId
-        User user = authFeignClient.getUserByUserId(userId).getBody();
+        User user =
+                externalAuthClient.getUserByUserId(userId);
         discussionCollection.setUser(user);
         discussionCollection.setDiscussionCount(0L);
 //        discussionCollectionRepository.save(discussionCollection);

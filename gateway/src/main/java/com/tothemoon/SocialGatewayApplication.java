@@ -1,5 +1,6 @@
 package com.tothemoon;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,11 +12,12 @@ import java.net.UnknownHostException;
 
 @SpringBootApplication
 @Slf4j
-//@EnableFeignClients(basePackages="com.tothemoon.app.feign")
 @EnableFeignClients
-public class SocialDiscussionAPIApplication {
+public class SocialGatewayApplication
+{
+
     public static void main(String[] args) throws UnknownHostException {
-        SpringApplication app = new SpringApplication(SocialDiscussionAPIApplication.class);
+        SpringApplication app = new SpringApplication(SocialGatewayApplication.class);
         Environment env = app.run(args).getEnvironment();
         log.info("\n-----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
