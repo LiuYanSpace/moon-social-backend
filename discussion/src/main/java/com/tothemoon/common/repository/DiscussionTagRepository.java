@@ -15,6 +15,5 @@ import java.util.List;
  */
 public interface DiscussionTagRepository extends JpaRepository<DiscussionTag, DiscussionTag.Id> {
     List<DiscussionTag> findByDiscussionId(Long discussionId);
-
     Page<DiscussionTag> findByTagId(Long tagId, Pageable pageable);
 }

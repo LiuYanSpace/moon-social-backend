@@ -14,6 +14,7 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    @Query("SELECT t FROM Tag t WHERE t.parentTag IS NULL")
-    List<Tag> getParentTag();
+    List<Tag> findByParentTagIsNull();
+
+    List<Tag> findAll();
 }

@@ -1,13 +1,11 @@
 package com.tothemoon.app.controller;
 
 import com.bird.dto.Pagination;
-import com.tothemoon.app.dto.DiscussionDTO;
 import com.tothemoon.app.dto.DiscussionDetailDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.dto.PostDetailDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.service.DiscussionService;
-import com.tothemoon.common.entity.Discussion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,8 +28,10 @@ import java.util.List;
 public class DiscussionController {
     @Autowired
     private DiscussionService discussionService;
+    @Autowired
+    private  DiscussionMapper discussionMapper;
 
-    private DiscussionMapper discussionMapper;
+
 
     @GetMapping
     public ResponseEntity<Pagination> getDiscussionList(
@@ -66,7 +66,7 @@ public class DiscussionController {
      *  who reply the post
      */
     @GetMapping("/posts/{discussionId}")
-    public ResponseEntity< Page<PostDetailDTO> > getPostsByDiscussionId(
+    public ResponseEntity<Page<PostDetailDTO>> getPostsByDiscussionId(
             @PathVariable Long discussionId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
@@ -80,19 +80,4 @@ public class DiscussionController {
     public ResponseEntity<DiscussionDetailDTO> getDiscussionById(@PathVariable Long discussionId) {
         return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
-
-    @GetMapping("/tags/{tagId}")
-    public ResponseEntity<?> getDiscussionsByTagId(@PathVariable Long tagId) {
-        Pageable pageable = PageRequest.of(0, 10);
-
-        return ResponseEntity.ok( discussionService.getDiscussionsByTagId(tagId,pageable));
-    }
-
-    @GetMapping("/tags/parent")
-    public ResponseEntity<?> getParentTag() {
-        return ResponseEntity.ok( discussionService.getParentTag());
-    }
-
-
-
 }

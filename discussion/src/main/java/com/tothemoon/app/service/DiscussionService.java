@@ -85,33 +85,6 @@ public class DiscussionService {
         List<Discussion> discussions = discussionRepository.findByIsStickyTrueAndIsPrivateFalseAndIsApprovedTrueOrderByLastPostedAtDesc();
         return cleanUpDiscussions(discussions);
     }
-
-
-    //TODO move to TagController
-    public Pagination getDiscussionsByTagId(Long tagId,   Pageable pageable ) {
-        Page<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId,pageable);
-        List<DiscussionDTO> list = new ArrayList<>();
-        for (DiscussionTag discussionTag : discussionTags.getContent()) {
-            list.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
-        }
-
-        Pagination pagination = new Pagination();
-        pagination.setSize(discussionTags.getSize());
-        pagination.setCurrPage(discussionTags.getNumber());
-        pagination.setTotalElements(discussionTags.getTotalElements());
-        pagination.setTotalPages(discussionTags.getTotalPages());
-        pagination.setContent(list);
-        return pagination;
-    }
-
-
-    //TODO move to TagController and filter parentId is null
-    public List<TagDTO> getParentTag() {
-        List<Tag> tags =   tagRepository.findAll();
-
-        return  tagMapper.toDTOList(tags);
-
-    }
     public DiscussionDetailDTO getDiscussionWithTagsById(Long discussionId) {
         DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
         discussionDetailDTO.setDiscussion(getDiscussionById(discussionId));

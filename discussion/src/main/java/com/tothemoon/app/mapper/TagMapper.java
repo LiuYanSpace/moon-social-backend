@@ -24,4 +24,5 @@ public interface TagMapper {
     })
     BasicTagDTO toBasicDTO(Tag tag);
     List<BasicTagDTO> toBasicDTOList(List<Tag> tags);
+
 }

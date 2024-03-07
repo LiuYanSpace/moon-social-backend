@@ -25,4 +25,5 @@ public class TagDTO {
     private String icon;
     private Integer excerptLength;
     private Boolean richExcerpts;
+    private List<TagDTO> children;
 }
