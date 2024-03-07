@@ -29,16 +29,15 @@ public class DiscussionController {
     @Autowired
     private DiscussionService discussionService;
     @Autowired
-    private  DiscussionMapper discussionMapper;
-
+    private DiscussionMapper discussionMapper;
 
 
     @GetMapping
     public ResponseEntity<Pagination> getDiscussionList(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "lastPostedAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder) {
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "lastPostedAt") String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = "DESC") String sortOrder) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         Pagination discussions = discussionService.getDiscussionList(pageable);
@@ -67,11 +66,12 @@ public class DiscussionController {
      */
     @GetMapping("/posts/{discussionId}")
     public ResponseEntity<Page<PostDetailDTO>> getPostsByDiscussionId(
-            @PathVariable Long discussionId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder) {
+            @PathVariable("discussionId") Long discussionId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "createdAt") String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = "DESC") String sortOrder
+    ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         return ResponseEntity.ok(discussionService.getPostsByDiscussionId(discussionId, pageable));
     }

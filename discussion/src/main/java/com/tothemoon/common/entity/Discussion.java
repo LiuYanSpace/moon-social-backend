@@ -48,6 +48,7 @@ public class Discussion {
 
     @Column(name = "last_posted_user_id")
     private Long lastPostedUserId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "last_post_id")
     private Post lastPost;

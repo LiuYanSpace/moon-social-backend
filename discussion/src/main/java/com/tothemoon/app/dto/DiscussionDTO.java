@@ -13,10 +13,10 @@ public class DiscussionDTO {
     private Integer participantCount = 0;
     private Integer postNumberIndex = 0;
     private Date createdAt;
-    private BasicUserInfoDTO user;
+    private Long userId;
     private BasicPostDTO firstPost;
     private Date lastPostedAt;
-    private BasicUserInfoDTO lastPostedUser;
+    private Long lastPostedUserId;
     private BasicPostDTO lastPost;
     private Integer lastPostNumber;
     private String slug;

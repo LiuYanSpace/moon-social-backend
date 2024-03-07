@@ -1,7 +1,7 @@
 package com.tothemoon.common.repository;
 
 import com.tothemoon.common.entity.Tag;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface TagRepository extends ListCrudRepository<Tag, Long> {
-    List<Tag> findByParentTagIsNull();
+    List<Tag> findByParentTagIsNullAndPositionIsNotNull(Sort sort);
 
-    List<Tag> findAll();
+    List<Tag> findByPositionIsNotNull(Sort position);
 }

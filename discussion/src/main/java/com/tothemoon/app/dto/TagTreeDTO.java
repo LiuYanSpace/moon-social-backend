@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 public class TagTreeDTO {
     private Long id;
-    private Long parentId;
     private String name;
     private String slug;
     private String description;

@@ -1,9 +1,7 @@
 package com.tothemoon.app.service;
 
 import com.bird.dto.Pagination;
-import com.tothemoon.app.dto.DiscussionDTO;
-import com.tothemoon.app.dto.DiscussionListDTO;
-import com.tothemoon.app.dto.TagDTO;
+import com.tothemoon.app.dto.*;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.TagMapper;
 import com.tothemoon.common.entity.Discussion;
@@ -11,9 +9,12 @@ import com.tothemoon.common.entity.DiscussionTag;
 import com.tothemoon.common.entity.Tag;
 import com.tothemoon.common.repository.DiscussionTagRepository;
 import com.tothemoon.common.repository.TagRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,34 +29,31 @@ import java.util.Objects;
  * @Version: v1.0
  */
 
+
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private TagMapper tagMapper;
-    @Autowired
-    private DiscussionTagRepository discussionTagRepository;
-    @Autowired
-    private DiscussionMapper discussionMapper;
+    private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
+    private final DiscussionTagRepository discussionTagRepository;
+    private final DiscussionMapper discussionMapper;
 
-    public List<TagDTO> getAllTagsTree() {
-        List<Tag> allTags = tagRepository.findAll();
-        List<TagDTO> rootTags = buildTagTree(null, allTags);
-
-        return rootTags;
+    public List<TagTreeDTO> getAllTagsTree() {
+        List<Tag> allTags = tagRepository.findByPositionIsNotNull(Sort.by("position"));
+        return buildTagTree(null, allTags);
     }
 
-    private List<TagDTO> buildTagTree(Long parentId, List<Tag> allTags) {
-        List<TagDTO> children = new ArrayList<>();
+    private List<TagTreeDTO> buildTagTree(Long parentId, List<Tag> allTags) {
+        List<TagTreeDTO> children = new ArrayList<>();
 
         for (Tag tag : allTags) {
             if (Objects.equals(parentId, tag.getParentTag() != null ? tag.getParentTag().getId() : null)) {
-                TagDTO tagDTO = tagMapper.toDTO(tag);
-                List<TagDTO> grandchildren = buildTagTree(tag.getId(), allTags);
-                tagDTO.setChildren(grandchildren);
-                children.add(tagDTO);
+                TagTreeDTO tagTreeDTO = tagMapper.toTagTreeDTO(tag);
+                List<TagTreeDTO> grandchildren = buildTagTree(tag.getId(), allTags);
+                tagTreeDTO.setChildren(grandchildren);
+                children.add(tagTreeDTO);
             }
         }
 
@@ -64,26 +62,26 @@ public class TagService {
 
     public Pagination getDiscussionsByTagId(Long tagId, Pageable pageable) {
         Page<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId, pageable);
-        List<DiscussionDTO> list = new ArrayList<>();
-        //if (discussionTags != null && discussionTags.getContent() != null) {
-            for (DiscussionTag discussionTag : discussionTags.getContent()) {
-                list.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
-            }
-        //}
+        List<DiscussionDTO> discussions = new ArrayList<>();
+
+        for (DiscussionTag discussionTag : discussionTags.getContent()) {
+            discussions.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
+        }
+
         Pagination pagination = new Pagination();
         pagination.setSize(discussionTags.getSize());
         pagination.setCurrPage(discussionTags.getNumber());
         pagination.setTotalElements(discussionTags.getTotalElements());
         pagination.setTotalPages(discussionTags.getTotalPages());
-        pagination.setContent(list);
+        pagination.setContent(discussions);
+
         return pagination;
     }
 
 
-    public List<TagDTO> getParentTags() {
-        List<Tag> tags = tagRepository.findByParentTagIsNull();
-        return tagMapper.toDTOList(tags);
+    public List<BasicTagDTO> getParentTags() {
+        List<Tag> tags = tagRepository.findByParentTagIsNullAndPositionIsNotNull(Sort.by("position"));
+        return tagMapper.toBasicDTOList(tags);
     }
-
 
 }

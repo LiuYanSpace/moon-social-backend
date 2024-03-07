@@ -112,13 +112,13 @@ public class DiscussionService {
     }
 
     private List<DiscussionListDTO> cleanUpDiscussions(List<Discussion> discussions) {
-        List<DiscussionDTO> discussionDTOs = discussionMapper.toDTOList(discussions);
+//        List<DiscussionDTO> discussionDTOs = discussionMapper.toDTOList(discussions);
         List<DiscussionListDTO> discussionListDTOS = new ArrayList<>();
-        for (DiscussionDTO discussionDTO : discussionDTOs) {
-            Long discussionId = discussionDTO.getId();
+        for (Discussion discussion : discussions) {
+            Long discussionId = discussion.getId();
             List<BasicTagDTO> basicTagDTOs = getTagsByDiscussionId(discussionId);
             DiscussionListDTO discussionListDTO = new DiscussionListDTO();
-            discussionListDTO.setDiscussion(discussionDTO);
+            discussionListDTO.setDiscussion(discussionMapper.toDTO(discussion));
             discussionListDTO.setTags(basicTagDTOs);
             discussionListDTOS.add(discussionListDTO);
         }
