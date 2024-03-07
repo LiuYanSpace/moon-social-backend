@@ -80,4 +80,9 @@ public class DiscussionController {
     public ResponseEntity<DiscussionDetailDTO> getDiscussionById(@PathVariable Long discussionId) {
         return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
+
+    @PostMapping("/posts/{postId}/like")
+    public ResponseEntity<String> likePost(@PathVariable Long postId, @RequestParam Long userId){
+        return null;
+    }
 }

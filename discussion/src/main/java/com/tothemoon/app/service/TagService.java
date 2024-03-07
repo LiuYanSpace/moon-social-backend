@@ -1,9 +1,7 @@
 package com.tothemoon.app.service;
 
 import com.bird.dto.Pagination;
-import com.tothemoon.app.dto.DiscussionDTO;
-import com.tothemoon.app.dto.DiscussionListDTO;
-import com.tothemoon.app.dto.TagDTO;
+import com.tothemoon.app.dto.*;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.TagMapper;
 import com.tothemoon.common.entity.Discussion;
@@ -40,22 +38,22 @@ public class TagService {
     @Autowired
     private DiscussionMapper discussionMapper;
 
-    public List<TagDTO> getAllTagsTree() {
+    public List<TagTreeDTO> getAllTagsTree() {
         List<Tag> allTags = tagRepository.findAll();
-        List<TagDTO> rootTags = buildTagTree(null, allTags);
+        List<TagTreeDTO> rootTags = buildTagTree(null, allTags);
 
         return rootTags;
     }
 
-    private List<TagDTO> buildTagTree(Long parentId, List<Tag> allTags) {
-        List<TagDTO> children = new ArrayList<>();
+    private List<TagTreeDTO> buildTagTree(Long parentId, List<Tag> allTags) {
+        List<TagTreeDTO> children = new ArrayList<>();
 
         for (Tag tag : allTags) {
             if (Objects.equals(parentId, tag.getParentTag() != null ? tag.getParentTag().getId() : null)) {
-                TagDTO tagDTO = tagMapper.toDTO(tag);
-                List<TagDTO> grandchildren = buildTagTree(tag.getId(), allTags);
-                tagDTO.setChildren(grandchildren);
-                children.add(tagDTO);
+                TagTreeDTO tagTreeDTO = tagMapper.toTagTreeDTO(tag);
+                List<TagTreeDTO> grandchildren = buildTagTree(tag.getId(), allTags);
+                tagTreeDTO.setChildren(grandchildren);
+                children.add(tagTreeDTO);
             }
         }
 
@@ -64,26 +62,26 @@ public class TagService {
 
     public Pagination getDiscussionsByTagId(Long tagId, Pageable pageable) {
         Page<DiscussionTag> discussionTags = discussionTagRepository.findByTagId(tagId, pageable);
-        List<DiscussionDTO> list = new ArrayList<>();
-        //if (discussionTags != null && discussionTags.getContent() != null) {
-            for (DiscussionTag discussionTag : discussionTags.getContent()) {
-                list.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
-            }
-        //}
+        List<DiscussionDTO> discussions = new ArrayList<>();
+
+        for (DiscussionTag discussionTag : discussionTags.getContent()) {
+            discussions.add(discussionMapper.toDTO(discussionTag.getDiscussion()));
+        }
+
         Pagination pagination = new Pagination();
         pagination.setSize(discussionTags.getSize());
         pagination.setCurrPage(discussionTags.getNumber());
         pagination.setTotalElements(discussionTags.getTotalElements());
         pagination.setTotalPages(discussionTags.getTotalPages());
-        pagination.setContent(list);
+        pagination.setContent(discussions);
+
         return pagination;
     }
 
 
-    public List<TagDTO> getParentTags() {
+    public List<ParentTagDTO> getParentTags() {
         List<Tag> tags = tagRepository.findByParentTagIsNull();
-        return tagMapper.toDTOList(tags);
+        return tagMapper.toParentTagDTO(tags);
     }
-
 
 }

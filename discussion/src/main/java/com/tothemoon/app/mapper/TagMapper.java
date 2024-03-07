@@ -1,7 +1,9 @@
 package com.tothemoon.app.mapper;
 
 import com.tothemoon.app.dto.BasicTagDTO;
+import com.tothemoon.app.dto.ParentTagDTO;
 import com.tothemoon.app.dto.TagDTO;
+import com.tothemoon.app.dto.TagTreeDTO;
 import com.tothemoon.common.entity.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,4 +27,9 @@ public interface TagMapper {
     BasicTagDTO toBasicDTO(Tag tag);
     List<BasicTagDTO> toBasicDTOList(List<Tag> tags);
 
+    TagTreeDTO toTagTreeDTO(Tag tag);
+    List<TagTreeDTO> toTagTreeDTO(List<Tag> tags);
+
+    ParentTagDTO toParentTagDTO(Tag tag);
+    List<ParentTagDTO> toParentTagDTO(List<Tag> tags);
 }

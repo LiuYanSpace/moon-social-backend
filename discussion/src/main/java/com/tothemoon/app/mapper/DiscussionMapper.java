@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 
+import java.util.Collection;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class, PostMapper.class})
@@ -27,6 +28,5 @@ public interface DiscussionMapper {
     Discussion toEntity(DiscussionDTO discussionDTO);
 
     List<DiscussionDTO> toDTOList(List<Discussion> discussions);
-
 
 }

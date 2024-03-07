@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class TagDTO {
+public class TagDTO{
     private Long id;
     private String name;
     private String slug;
@@ -25,5 +25,4 @@ public class TagDTO {
     private String icon;
     private Integer excerptLength;
     private Boolean richExcerpts;
-    private List<TagDTO> children;
 }

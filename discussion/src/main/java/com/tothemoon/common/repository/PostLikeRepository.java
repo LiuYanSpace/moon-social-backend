@@ -15,6 +15,5 @@ import java.util.List;
  */
 public interface PostLikeRepository extends JpaRepository<PostLike, PostLikeId> {
     List<PostLike> findByUserIdAndPostId(long userId, long postId);
-
     List<PostLike> findByPostId(long postId);
 }

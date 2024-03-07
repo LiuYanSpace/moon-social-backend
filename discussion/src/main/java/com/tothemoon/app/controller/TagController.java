@@ -1,22 +1,19 @@
 package com.tothemoon.app.controller;
 
-import com.tothemoon.app.dto.TagDTO;
+import com.bird.dto.Pagination;
+import com.tothemoon.app.dto.ParentTagDTO;
+import com.tothemoon.app.dto.TagTreeDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.TagMapper;
-import com.tothemoon.app.service.DiscussionService;
 import com.tothemoon.app.service.TagService;
-import com.tothemoon.common.entity.Tag;
 import com.tothemoon.common.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,21 +38,27 @@ public class TagController {
     private TagRepository tagRepository;
 
     @GetMapping("/{tagId}")
-    public ResponseEntity<?> getDiscussionsByTagId(@PathVariable Long tagId) {
-        Pageable pageable = PageRequest.of(0, 10);
-        return ResponseEntity.ok(tagService.getDiscussionsByTagId(tagId, pageable));
+    public ResponseEntity<Pagination> getDiscussionsByTagId(
+            @PathVariable Long tagId,
+            @RequestParam(defaultValue="0")int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt")String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortOrder
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        return ResponseEntity.ok(tagService.getDiscussionsByTagId(tagId,pageable));
     }
 
     @GetMapping("/parent")
-    public List<TagDTO> getParentTags() {
+    public ResponseEntity<List<ParentTagDTO>> getParentTags() {
 
-        return tagService.getParentTags();
+        return ResponseEntity.ok(tagService.getParentTags());
     }
 
 
     @GetMapping("/children")
-    public List<TagDTO> getAllTagsTree() {
+    public ResponseEntity<List<TagTreeDTO>> getAllTagsTree() {
 
-        return tagService.getAllTagsTree();
+        return ResponseEntity.ok(tagService.getAllTagsTree());
     }
 }
