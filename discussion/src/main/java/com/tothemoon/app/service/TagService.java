@@ -9,11 +9,14 @@ import com.tothemoon.common.entity.DiscussionTag;
 import com.tothemoon.common.entity.Tag;
 import com.tothemoon.common.repository.DiscussionTagRepository;
 import com.tothemoon.common.repository.TagRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,23 +29,20 @@ import java.util.Objects;
  * @Version: v1.0
  */
 
+
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private TagMapper tagMapper;
-    @Autowired
-    private DiscussionTagRepository discussionTagRepository;
-    @Autowired
-    private DiscussionMapper discussionMapper;
+    private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
+    private final DiscussionTagRepository discussionTagRepository;
+    private final DiscussionMapper discussionMapper;
 
     public List<TagTreeDTO> getAllTagsTree() {
-        List<Tag> allTags = tagRepository.findAll();
-        List<TagTreeDTO> rootTags = buildTagTree(null, allTags);
-
-        return rootTags;
+        List<Tag> allTags = tagRepository.findByPositionIsNotNull(Sort.by("position"));
+        return buildTagTree(null, allTags);
     }
 
     private List<TagTreeDTO> buildTagTree(Long parentId, List<Tag> allTags) {
@@ -79,9 +79,9 @@ public class TagService {
     }
 
 
-    public List<ParentTagDTO> getParentTags() {
-        List<Tag> tags = tagRepository.findByParentTagIsNull();
-        return tagMapper.toParentTagDTO(tags);
+    public List<BasicTagDTO> getParentTags() {
+        List<Tag> tags = tagRepository.findByParentTagIsNullAndPositionIsNotNull(Sort.by("position"));
+        return tagMapper.toBasicDTOList(tags);
     }
 
 }

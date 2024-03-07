@@ -1,6 +1,7 @@
 package com.tothemoon.app.controller;
 
 import com.bird.dto.Pagination;
+import com.tothemoon.app.dto.BasicTagDTO;
 import com.tothemoon.app.dto.ParentTagDTO;
 import com.tothemoon.app.dto.TagTreeDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
@@ -50,7 +51,7 @@ public class TagController {
     }
 
     @GetMapping("/parent")
-    public ResponseEntity<List<ParentTagDTO>> getParentTags() {
+    public ResponseEntity<List<BasicTagDTO>> getParentTags() {
 
         return ResponseEntity.ok(tagService.getParentTags());
     }
