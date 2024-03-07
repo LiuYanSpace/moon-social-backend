@@ -3,7 +3,18 @@ spring:
     profiles:
       active: dev
   application:
-    name: authentication
+    name: API-GATEWAY-SERVICE
+
+  cloud:
+    gateway:
+      routes:
+        - id: authentication
+          uri: lb://authentication
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
+
 
 
   servlet:
@@ -33,9 +44,17 @@ spring:
       hibernate.cache.use_query_cache: false
 
 server:
-  port: 8081
+  port: 8080
 
 
 jwt:
   secret: 9GItnI6fFFe9Xy8H83nknT7sUL2NmTFqKMYA9zcK9lXgtYvfSwplsUtKPPO9jRw2TrZryP/vZ7ghNfaJNdwuvzQcEMzytNa2CfFQN1mwQH1pUneyXTpvv5evZGmdqGIBc/VLKCf7lYgQQcf7KqCcbeiBTCWphaet2t6xIMJ6LDFJy8U1vnun0DYM6AQ/uhAPCmfK6TnfhBITV7imW/sKOFoDMBYV46yQkD+pTg==
   expirationInMs: 2592000000 #30 days
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
