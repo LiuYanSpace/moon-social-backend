@@ -1,7 +1,7 @@
 package com.tothemoon.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -42,22 +42,18 @@ public class User {
 
     @Column(name = "joined_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date joinedAt;
 
     @Column(name = "last_seen_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date lastSeenAt;
 
     @Column(name = "marked_all_as_read_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date markedAllAsReadAt;
 
     @Column(name = "read_notifications_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date readNotificationsAt;
 
     @Column(name = "discussion_count", nullable = false)
@@ -107,7 +103,6 @@ public class User {
 
     @Column(name = "last_vote_time")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date lastVoteTime;
 
     @Column(name = "new_achievements", nullable = false, columnDefinition = "TEXT")
