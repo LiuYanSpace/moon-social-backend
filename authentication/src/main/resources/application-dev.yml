@@ -3,7 +3,7 @@ spring:
     profiles:
       active: dev
   application:
-    name: authentication
+    name: API-AUTH-SERVICE
 
 
   servlet:

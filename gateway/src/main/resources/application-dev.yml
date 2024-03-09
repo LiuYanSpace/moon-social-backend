@@ -9,12 +9,23 @@ spring:
     gateway:
       routes:
         - id: authentication
-          uri: lb://authentication
+          uri: lb://API-AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/thirdparty/(?<segment>/?.*),/$\{segment}
-
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+        - id: discussion
+          uri: lb://API-DISCUSSION-SERVICE
+          predicates:
+            - Path=/api/discussions/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
 
 
   servlet:
