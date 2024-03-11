@@ -18,6 +18,9 @@ https://rydmike.com/flexcolorscheme/themesplayground-latest/
 https://medium.com/@truongbui95/jwt-authentication-and-authorization-with-spring-boot-3-and-spring-security-6-2f90f9337421
 
 
+https://blog.csdn.net/Dean_xiu/article/details/122935091
+https://blog.knoldus.com/spring-cloud-gateway-with-jwt/
+
 ## 技术栈
 Springboot + hibernate + mysql + liquibase
 Elasticsearch 全局搜索
