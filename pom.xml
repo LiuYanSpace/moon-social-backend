@@ -9,12 +9,95 @@
     <description>main pack</description>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>common</module>
-        <module>authentication</module>
-        <module>fileservice</module>
-        <module>discussion</module>
-        <module>gateway</module>
-    </modules>
+
+        <modules>
+            <module>common</module>
+            <module>authentication</module>
+    <!--        <module>fileservice</module>-->
+            <module>discussion</module>
+            <module>gateway</module>
+        </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <lombok.version>1.18.26</lombok.version>
+        <mysql.version>8.0.11</mysql.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <spring.boot.version>3.2.0</spring.boot.version>
+        <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
+        <micrometer-tracing.version>1.2.0</micrometer-tracing.version>
+        <micrometer-observation.version>1.12.0</micrometer-observation.version>
+        <feign-micrometer.version>12.5</feign-micrometer.version>
+        <zipkin-reporter-brave.version>2.17.0</zipkin-reporter-brave.version>
+        <persistence-api.version>1.0.2</persistence-api.version>
+        <spring.boot.test.version>3.1.5</spring.boot.test.version>
+        <bytebuddy.version>1.14.12</bytebuddy.version>
+        <security.version> 2.7.11</security.version>
+
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>2.5.5</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+        </dependencies>
+
+    </dependencyManagement>
+
+
+
+
+
 
 </project>

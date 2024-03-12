@@ -1,13 +1,16 @@
 package com.tothemoon.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
+@Data
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor

@@ -7,8 +7,13 @@ package com.tothemoon.common.entity;
  * @Date: 28/02/2024 21:29
  * @Version: v1.0
  */
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data

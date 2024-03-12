@@ -3,19 +3,19 @@ package com.tothemoon.common.config.errorhandler;
 import com.tothemoon.common.config.SecurityUtil;
 import com.bird.exception.BadRequestException;
 import com.bird.exception.ErrorReasonCode;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 
 
 @ControllerAdvice
@@ -38,9 +38,9 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler({ResponseStatusException.class})
     protected ResponseEntity<Object> handleResponseStatus(
             ResponseStatusException e) {
-        log.warn("ResponseStatusException triggered by {} : {}", SecurityUtil.getCurrentUserLogin(), e.getStatus());
+        log.warn("ResponseStatusException triggered by {} : {}", SecurityUtil.getCurrentUserLogin(), e.getStatusCode());
 
-        return new ResponseEntity<>(e.getReason(), new HttpHeaders(), e.getStatus());
+        return new ResponseEntity<>(e.getReason(), new HttpHeaders(), e.getStatusCode());
     }
 
     @ExceptionHandler({MaxUploadSizeExceededException.class})

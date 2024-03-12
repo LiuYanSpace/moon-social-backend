@@ -4,6 +4,7 @@ import com.bird.exception.BadRequestException;
 import com.bird.exception.ErrorReasonCode;
 import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Objects;
 
 @Service

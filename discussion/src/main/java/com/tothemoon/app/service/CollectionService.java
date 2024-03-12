@@ -15,12 +15,12 @@ import com.tothemoon.common.entity.DiscussionCollectionItem;
 import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.DiscussionCollectionItemRepository;
 import com.tothemoon.common.repository.DiscussionCollectionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

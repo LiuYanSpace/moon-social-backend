@@ -18,12 +18,7 @@ public interface UserMapper {
     UserDTO toDTO(User user);
     User toEntity(UserDTO userDTO);
     List<UserDTO> toDTOList(List<User> users);
-    @Mappings({
-            @Mapping(target = "id", source = "id"),
-            @Mapping(target = "username", source = "username"),
-            @Mapping(target = "avatarUrl", source = "avatarUrl"),
-            @Mapping(target = "nickname", source = "nickname")
-    })
+
     BasicUserInfoDTO toBasicUserInfoDTO(User user);
 
     @Named("toBasicUserInfoDTO")

@@ -1,6 +1,7 @@
 package com.tothemoon.common.utils;
 
-import javax.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class ClientInfo {
 

@@ -4,6 +4,7 @@ import feign.Logger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.form.spring.SpringFormEncoder;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -13,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 public class FeignConfig {

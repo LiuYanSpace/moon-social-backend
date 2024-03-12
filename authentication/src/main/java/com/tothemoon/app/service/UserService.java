@@ -1,7 +1,6 @@
 package com.tothemoon.app.service;
 
-import javax.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletRequest;
 import com.tothemoon.app.dto.RegisterDTO;
 import com.tothemoon.app.dto.UserDTO;
 import com.tothemoon.common.config.SecurityUtil;
@@ -23,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
