@@ -1,7 +1,5 @@
 package com.tothemoon.common.entity;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Embeddable

@@ -1,6 +1,5 @@
 package com.tothemoon.app.dto;
 
-import com.bird.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

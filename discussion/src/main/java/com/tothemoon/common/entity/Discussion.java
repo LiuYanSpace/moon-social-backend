@@ -2,10 +2,9 @@ package com.tothemoon.common.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
-import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -36,7 +35,7 @@ public class Discussion {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade = ALL)
+    @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     private User user;

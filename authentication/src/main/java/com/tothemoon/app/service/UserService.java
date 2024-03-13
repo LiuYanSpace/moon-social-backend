@@ -15,6 +15,7 @@ import com.tothemoon.common.repository.AccessTokenRepository;
 import com.tothemoon.common.repository.DoorkeyRepository;
 import com.tothemoon.common.repository.UserRepository;
 import com.tothemoon.common.utils.ClientInfo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Service

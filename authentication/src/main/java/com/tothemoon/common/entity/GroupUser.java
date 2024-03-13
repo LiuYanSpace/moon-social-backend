@@ -1,15 +1,12 @@
 package com.tothemoon.common.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import java.io.Serializable;
+import lombok.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -19,10 +16,12 @@ public class GroupUser {
     @EmbeddedId
     private GroupUserId id;
     @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("groupId")
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 

@@ -8,6 +8,7 @@ import com.tothemoon.common.config.security.UserDetailsImpl;
 import com.bird.enums.Role;
 import com.bird.exception.BadRequestException;
 import com.bird.exception.ErrorReasonCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 

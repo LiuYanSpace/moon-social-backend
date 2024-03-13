@@ -11,6 +11,7 @@ public enum ErrorReasonCode {
     Invalid_Reset_Key, // the token for password reset is not valid
     Size_Limit_Exceeded, // max size of files to upload exceeds 10mb
     Server_Error, // unexpected server error
-    ACCESS_Denied
+    ACCESS_Denied,
+    ACCESS_Expired,
 
 }

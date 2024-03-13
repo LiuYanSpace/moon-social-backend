@@ -1,17 +1,15 @@
 package com.tothemoon.common.config.security;
 
-import com.tothemoon.common.entity.Group;
 import com.tothemoon.common.entity.GroupUser;
 import com.tothemoon.common.entity.User;
 import com.tothemoon.common.repository.GroupUserRepository;
 import com.tothemoon.common.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,10 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private GroupUserRepository groupUserRepository;
+    private final GroupUserRepository groupUserRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional

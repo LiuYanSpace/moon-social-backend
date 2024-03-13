@@ -1,9 +1,7 @@
 package com.tothemoon.common.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.*;
 
 @Embeddable
 public class PostLikeId implements Serializable {
