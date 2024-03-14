@@ -1,18 +1,12 @@
 package com.tothemoon.app.mapper;
 
-import com.tothemoon.app.dto.BasicPostDTO;
-import com.tothemoon.app.dto.BasicUserInfoDTO;
 import com.tothemoon.app.dto.DiscussionDTO;
 import com.tothemoon.common.entity.Discussion;
-import com.tothemoon.common.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-import org.mapstruct.Named;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, PostMapper.class})
+@Mapper(componentModel = "spring")
 public interface DiscussionMapper {
 
 

@@ -15,11 +15,11 @@ public class DiscussionCollectionItem {
     @EmbeddedId
     private DiscussionCollectionId id;
     @ManyToOne
-    @MapsId("discussion_id")
+    @MapsId("discussionId")
     @JoinColumn(name = "discussion_id", nullable = false)
     private Discussion discussion;
     @ManyToOne
-    @MapsId("list_id")
+    @MapsId("listId")
     @JoinColumn(name = "list_id", nullable = false)
     private DiscussionCollection discussionList;
     private Long order;

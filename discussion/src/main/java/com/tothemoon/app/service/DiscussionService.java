@@ -1,15 +1,17 @@
 package com.tothemoon.app.service;
 
+import com.bird.dto.BasicUserInfoDTO;
 import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
+import com.bird.feign.UserServiceFeignApi;
 import com.tothemoon.app.dto.*;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.PostMapper;
 import com.tothemoon.app.mapper.TagMapper;
-import com.tothemoon.app.mapper.UserMapper;
 import com.tothemoon.common.entity.*;
 import com.tothemoon.common.repository.*;
+import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,8 +44,8 @@ public class DiscussionService {
     private final DiscussionMapper discussionMapper;
     private final TagMapper tagMapper;
     private final PostMapper postMapper;
-    private final UserMapper userMapper;
-
+    @Resource
+    private UserServiceFeignApi userServiceFeignApi;
 
     //TODO Page to Pagination
     public Page<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
@@ -57,7 +59,8 @@ public class DiscussionService {
             // TODO
             List<BasicUserInfoDTO> replyUsers = new ArrayList<>();
             for (PostLike like : postLike) {
-                likeUsers.add(userMapper.toBasicUserInfoDTO(like.getUser()));
+                BasicUserInfoDTO basicUserInfoDTO = userServiceFeignApi.getBasicUserinfoByUserId(like.getUserId()).getBody();
+                likeUsers.add(basicUserInfoDTO);
             }
             PostDetailDTO postDetailDTO = new PostDetailDTO();
             postDetailDTO.setBasicPost(postDTO);
@@ -85,6 +88,7 @@ public class DiscussionService {
         List<Discussion> discussions = discussionRepository.findByIsStickyTrueAndIsPrivateFalseAndIsApprovedTrueOrderByLastPostedAtDesc();
         return cleanUpDiscussions(discussions);
     }
+
     public DiscussionDetailDTO getDiscussionWithTagsById(Long discussionId) {
         DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
         discussionDetailDTO.setDiscussion(getDiscussionById(discussionId));

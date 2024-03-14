@@ -59,10 +59,8 @@ public class Tag {
     @JoinColumn(name = "last_posted_discussion_id")
     private Discussion lastPostedDiscussion;
 
-    @ManyToOne
-    @JoinColumn(name = "last_posted_user_id")
-    private User lastPostedUser;
-
+    @Column(name = "last_posted_user_id")
+    private Long lastPostedUserId;
     @Column(name = "icon")
     private String icon;
 

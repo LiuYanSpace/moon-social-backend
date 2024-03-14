@@ -1,6 +1,7 @@
 package com.tothemoon.app.dto;
 
 import lombok.Data;
+import com.bird.dto.BasicUserInfoDTO;
 
 import java.util.Date;
 

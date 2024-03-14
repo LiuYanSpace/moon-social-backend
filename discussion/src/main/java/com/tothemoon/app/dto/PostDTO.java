@@ -1,21 +1,21 @@
 package com.tothemoon.app.dto;
-import com.tothemoon.common.entity.User;
 import lombok.*;
 
 import java.util.Date;
+import com.bird.dto.BasicUserInfoDTO;
 
 @Data
 public class PostDTO {
     private Long id;
     private Integer number;
     private Date createdAt;
-    private User user;
+    private BasicUserInfoDTO user;
     private String type;
     private String content;
     private Date editedAt;
-    private User editedUser;
+    private BasicUserInfoDTO editedUser;
     private Date hiddenAt;
-    private User hiddenUser;
+    private BasicUserInfoDTO hiddenUser;
     private String ipAddress;
     private Boolean isPrivate = false;
     private Boolean isApproved = true;

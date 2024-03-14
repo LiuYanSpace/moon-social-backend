@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/unsubscribe").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest()
                         .authenticated());
 

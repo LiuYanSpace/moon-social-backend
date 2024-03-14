@@ -15,13 +15,13 @@ public interface TagMapper {
     Tag toEntity(TagDTO tagDTO);
 
     List<TagDTO> toDTOList(List<Tag> tags);
-    @Mappings({
-            @Mapping(target = "id", source = "id"),
-            @Mapping(target = "name", source = "name"),
-            @Mapping(target = "slug", source = "slug"),
-            @Mapping(target = "color", source = "color"),
-            @Mapping(target = "icon", source = "icon")
-    })
+//    @Mappings({
+//            @Mapping(target = "id", source = "id"),
+//            @Mapping(target = "name", source = "name"),
+//            @Mapping(target = "slug", source = "slug"),
+//            @Mapping(target = "color", source = "color"),
+//            @Mapping(target = "icon", source = "icon")
+//    })
     BasicTagDTO toBasicDTO(Tag tag);
     List<BasicTagDTO> toBasicDTOList(List<Tag> tags);
 

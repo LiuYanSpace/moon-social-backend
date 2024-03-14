@@ -18,17 +18,17 @@ public class CollectionController {
     private CollectionService collectionService;
 
 
-
     @GetMapping
     public ResponseEntity<Pagination> getDiscussionCollections(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "updatedAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder) {
+            @RequestParam(defaultValue = "DESC") String sortOrder, @RequestHeader("X-UserId") String userId) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable));
+        return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable, userId));
     }
+
     @GetMapping("/{userId}")
     public ResponseEntity<Pagination> getDiscussionCollectionsByUserId(
             @PathVariable Long userId,
@@ -38,7 +38,7 @@ public class CollectionController {
             @RequestParam(defaultValue = "DESC") String sortOrder) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        return ResponseEntity.ok(collectionService.getDiscussionCollectionsByUserId(userId,pageable));
+        return ResponseEntity.ok(collectionService.getDiscussionCollectionsByUserId(userId, pageable));
     }
 
     @GetMapping("/details/{listId}")
@@ -47,15 +47,15 @@ public class CollectionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "updatedAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder) {
+            @RequestParam(defaultValue = "DESC") String sortOrder, @RequestHeader("X-UserId") String userId) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
-        return ResponseEntity.ok(collectionService.getDiscussionCollectionsItems(listId,pageable));
+        return ResponseEntity.ok(collectionService.getDiscussionCollectionsItems(listId, pageable, userId));
     }
 
     @PostMapping
-    public ResponseEntity<?> createDiscussionCollection(@RequestBody DiscussionCollectionDTO collectionDTO) {
-        collectionService.createDiscussionCollection(collectionDTO);
+    public ResponseEntity<?> createDiscussionCollection(@RequestBody DiscussionCollectionDTO collectionDTO, @RequestHeader("X-UserId") String userId) {
+        collectionService.createDiscussionCollection(collectionDTO, userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

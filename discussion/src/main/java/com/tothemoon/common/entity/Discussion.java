@@ -35,10 +35,8 @@ public class Discussion {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    @EqualsAndHashCode.Exclude
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "first_post_id")
@@ -48,10 +46,8 @@ public class Discussion {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPostedAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "last_posted_user_id")
-    private User lastPostedUser;
-
+    @Column(name = "last_posted_user_id")
+    private Long lastPostedUserId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "last_post_id")
     private Post lastPost;
@@ -63,9 +59,8 @@ public class Discussion {
     @Temporal(TemporalType.TIMESTAMP)
     private Date hiddenAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hidden_user_id")
-    private User hiddenUser;
+    @Column(name = "hidden_user_id")
+    private Long hiddenUserId;
 
     @Column(name = "slug", nullable = false, length = 255)
     private String slug;

@@ -3,6 +3,7 @@ package com.tothemoon.app.dto;
 import lombok.*;
 import java.util.Date;
 import java.util.List;
+import com.bird.dto.BasicUserInfoDTO;
 
 @Data
 public class TagDTO {

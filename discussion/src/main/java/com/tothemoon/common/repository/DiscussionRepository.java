@@ -4,7 +4,7 @@ import com.tothemoon.common.entity.Discussion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @Date: 19/02/2024 19:43
  * @Version: v1.0
  */
-public interface DiscussionRepository extends CrudRepository<Discussion, Long> {
+public interface DiscussionRepository extends ListCrudRepository<Discussion, Long> {
     Page<Discussion> findByIsStickyFalseAndIsPrivateFalseAndIsApprovedTrue(Pageable pageable);
 
     List<Discussion> findByIsStickyTrueAndIsPrivateFalseAndIsApprovedTrueOrderByLastPostedAtDesc();
