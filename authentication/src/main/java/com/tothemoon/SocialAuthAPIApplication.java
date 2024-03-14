@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 @Slf4j
 @EnableFeignClients
 @EnableDiscoveryClient
-@ComponentScan("com.tothemoon.common")
+@ComponentScan("com.tothemoon.common.repository")
 public class SocialAuthAPIApplication {
 
     public static void main(String[] args) throws UnknownHostException {

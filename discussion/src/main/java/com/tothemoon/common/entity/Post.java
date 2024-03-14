@@ -28,10 +28,8 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @Column(name = "user_id")
+    private Long userId;
     @Column(name = "type", length = 100)
     private String type;
 
@@ -42,18 +40,14 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date editedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "edited_user_id")
-    private User editedUser;
-
+    @Column(name = "edited_user_id")
+    private Long editedUserId;
     @Column(name = "hidden_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date hiddenAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hidden_user_id")
-    private User hiddenUser;
-
+    @Column(name = "edited_user_id")
+    private Long hiddenUserId;
     @Column(name = "ip_address", length = 45)
     private String ipAddress;
 

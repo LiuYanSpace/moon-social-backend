@@ -23,8 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found: " + usernameOrEmail));
+        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).orElseThrow(() -> new UsernameNotFoundException("User Not Found: " + usernameOrEmail));
         List<GroupUser> groups = groupUserRepository.findByUserId(user.getId());
         if (groups.isEmpty()) {
             throw new UsernameNotFoundException("User No permission: " + usernameOrEmail);

@@ -18,13 +18,15 @@ spring:
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+            - AuthenticationFilter
+        # filters:
+#            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
         - id: discussion
           uri: lb://API-DISCUSSION-SERVICE
           predicates:
             - Path=/api/discussions/**
           filters:
-            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+            - AuthenticationFilter
 
 
 server:

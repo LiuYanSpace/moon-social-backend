@@ -26,14 +26,14 @@ public class PostLike {
     @EmbeddedId
     private PostLikeId id;
     @ManyToOne
-    @MapsId("post_id")
+    @MapsId("postId")
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @ManyToOne
-    @MapsId("user_id")
+    @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 }
