@@ -1,0 +1,40 @@
+spring:
+  config:
+    profiles:
+      active: dev
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+    gateway:
+      routes:
+        - id: authentication
+          uri: lb://API-AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - AuthenticationFilter
+        # filters:
+#            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+        - id: discussion
+          uri: lb://API-DISCUSSION-SERVICE
+          predicates:
+            - Path=/api/discussions/**
+          filters:
+            - AuthenticationFilter
+
+
+server:
+  port: 8181
+
+
+jwt:
+  secret: 9GItnI6fFFe9Xy8H83nknT7sUL2NmTFqKMYA9zcK9lXgtYvfSwplsUtKPPO9jRw2TrZryP/vZ7ghNfaJNdwuvzQcEMzytNa2CfFQN1mwQH1pUneyXTpvv5evZGmdqGIBc/VLKCf7lYgQQcf7KqCcbeiBTCWphaet2t6xIMJ6LDFJy8U1vnun0DYM6AQ/uhAPCmfK6TnfhBITV7imW/sKOFoDMBYV46yQkD+pTg==
+  expirationInMs: 2592000000 #30 days
+
+

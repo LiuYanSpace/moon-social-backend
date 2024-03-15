@@ -15,6 +15,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -43,6 +44,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
                     final String token = this.getAuthHeader(request);
+                    System.err.println(token);
                     if (jwtUtils.getUserNameFromJwtToken(token) == null) {
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
@@ -50,6 +52,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     if (userId == null) {
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
+                    log.info("UserId: {}", userId);
+
                     ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                             .header("X-UserId", String.valueOf(userId))
                             .build();
@@ -66,7 +70,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             }
 
             private String getAuthHeader(ServerHttpRequest request) {
-                return request.getHeaders().getOrEmpty("Authorization").get(0);
+                HttpHeaders headers = request.getHeaders();
+                if (headers.containsKey(HttpHeaders.AUTHORIZATION)) {
+                    String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
+                    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                        return authHeader.substring(7); // Remove "Bearer " prefix
+                    }
+                }
+                return null;
+//                return request.getHeaders().getOrEmpty("Authorization").get(0);
             }
 
             private boolean isAuthMissing(ServerHttpRequest request) {
