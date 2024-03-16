@@ -27,9 +27,6 @@ public class JwtUtils {
         if (Objects.isNull(token)) {
             return null;
         }
-        log.error("Token", token);
-
-
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))

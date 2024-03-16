@@ -37,14 +37,14 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             @Override
             public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
                 ServerHttpRequest request = exchange.getRequest();
-                log.info("Applying AuthenticationFilter to request: {}", request.getPath());
+                log.info("request: {}", request.getPath());
 
                 if (routerValidator.isSecured.test(request)) {
                     if (this.isAuthMissing(request)) {
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
                     final String token = this.getAuthHeader(request);
-                    System.err.println(token);
+                    log.error("token: {}", token);
                     if (jwtUtils.getUserNameFromJwtToken(token) == null) {
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
@@ -52,7 +52,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     if (userId == null) {
                         return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                     }
-                    log.info("UserId: {}", userId);
+                    log.error("UserId: {}", userId);
 
                     ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                             .header("X-UserId", String.valueOf(userId))

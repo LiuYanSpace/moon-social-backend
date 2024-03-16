@@ -13,11 +13,11 @@ public class TagDTO {
     private String description;
     private String color;
     private Integer position;
-    private TagDTO parentTag;
+    private Long parentTagId;
     private Integer discussionCount = 0;
     private Date lastPostedAt;
-    private BasicDiscussionDTO lastPostedDiscussion;
-    private BasicUserInfoDTO lastPostedUser;
+    private Long lastPostedDiscussionId;
+    private Long lastPostedUserId;
     private String icon;
     private Integer excerptLength;
     private Boolean richExcerpts;
