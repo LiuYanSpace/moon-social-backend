@@ -12,4 +12,5 @@ public class PostLikeId implements Serializable {
 
     @Column(name = "user_id")
     private Long userId;
+
 }

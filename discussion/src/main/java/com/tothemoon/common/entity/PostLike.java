@@ -1,5 +1,6 @@
 package com.tothemoon.common.entity;
 
+
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -37,4 +38,11 @@ public class PostLike {
     private User user;
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
+
+    public PostLike(Long postId, Long userId) {
+        this.post = new Post(postId);
+        this.user = new User(userId);
+        this.createdAt = new Date();
+    }
+
 }

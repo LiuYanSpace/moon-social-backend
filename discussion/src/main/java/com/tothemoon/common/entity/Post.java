@@ -66,5 +66,8 @@ public class Post {
     @Column(name = "is_spam", nullable = false)
     private Boolean isSpam = false;
 
+    public Post(Long postId) {
+    }
+
     // Getters and setters omitted for brevity
 }

@@ -33,4 +33,6 @@ public interface PostMapper {
         dto.setUser(UserMapper.INSTANCE.toBasicUserInfoDTO(post.getUser()));
         return dto;
     }
+
+
 }

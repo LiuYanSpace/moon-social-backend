@@ -30,7 +30,10 @@ public class DiscussionTag {
 
         @Column(name = "tag_id", nullable = false, updatable = false)
         private Long tagId;
-        public Id() {}
+
+        public Id() {
+        }
+
         public Id(Long discussionId, Long tagId) {
             this.discussionId = discussionId;
             this.tagId = tagId;

@@ -8,4 +8,5 @@ package com.tothemoon.app.dto;
  * @Version: v1.0
  */
 public class UserLikeDTO {
+
 }

@@ -4,20 +4,20 @@ import com.bird.dto.Pagination;
 import com.bird.exception.ErrorReasonCode;
 import com.bird.exception.NotFoundRequestException;
 import com.tothemoon.app.dto.*;
-import com.tothemoon.app.mapper.DiscussionMapper;
-import com.tothemoon.app.mapper.PostMapper;
-import com.tothemoon.app.mapper.TagMapper;
-import com.tothemoon.app.mapper.UserMapper;
+import com.tothemoon.app.mapper.*;
 import com.tothemoon.common.entity.*;
 import com.tothemoon.common.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,7 +43,64 @@ public class DiscussionService {
     private final TagMapper tagMapper;
     private final PostMapper postMapper;
     private final UserMapper userMapper;
+    private final DiscussionViewsRepository discussionViewsRepository;
 
+    //浏览
+
+    public List<DiscussionViewsDTO> getDiscussionList(Long userId) {
+        List<DiscussionViews> discussionViewsList = discussionViewsRepository.findByUserId(userId);
+        List<DiscussionViewsDTO> discussionViewsDTOList = new ArrayList<>();
+        for (DiscussionViews discussionViews : discussionViewsList) {
+            DiscussionViewsDTO discussionViewsDTO = new DiscussionViewsDTO();
+            discussionViewsDTO.getNickname(discussionViews.getUser().getNickname());
+            discussionViewsDTO.setTitle(discussionViews.getDiscussion().getTitle());
+            discussionViewsDTO.setVisitedAt(discussionViews.getVisitedAt());
+
+            discussionViewsDTOList.add(discussionViewsDTO);
+
+        }
+
+        return discussionViewsDTOList;
+    }
+
+    //点赞
+    public void getPostLike(Long postId, Long userId) {
+        if (!postLikeRepository.existsByPostIdAndUserId(postId, userId)) {
+            PostLike postLike = new PostLike(postId, userId);
+            postLikeRepository.save(postLike);
+
+        }
+    }
+
+    // 取消点赞帖子
+    public void unlikePost(Long postId, Long userId) {
+
+        postLikeRepository.deleteByPostIdAndUserId(postId, userId);
+
+    }
+
+
+    // 获取帖子点赞数
+    public int getLikesCount(Long postId) {
+        return postLikeRepository.countByPostId(postId);
+
+    }
+
+
+    //获取用户点赞列表
+    public List<PostLikeDTO> getLikedPosts(Long userId) {
+
+        List<PostLike> postlikes = postLikeRepository.findByUserId(userId);
+        List<PostLikeDTO> likedPosts = new ArrayList<>();
+        for (PostLike postLike : postlikes) {
+            PostLikeDTO postLikeDTO = new PostLikeDTO();
+            postLikeDTO.setPostId(postLike.getPost().getId());
+            postLikeDTO.setContent(postLike.getPost().getContent());
+            likedPosts.add(postLikeDTO);
+        }
+
+        return likedPosts;
+    }
 
     //TODO Page to Pagination
     public Page<PostDetailDTO> getPostsByDiscussionId(Long discussionId, Pageable pageable) {
@@ -85,6 +142,7 @@ public class DiscussionService {
         List<Discussion> discussions = discussionRepository.findByIsStickyTrueAndIsPrivateFalseAndIsApprovedTrueOrderByLastPostedAtDesc();
         return cleanUpDiscussions(discussions);
     }
+
     public DiscussionDetailDTO getDiscussionWithTagsById(Long discussionId) {
         DiscussionDetailDTO discussionDetailDTO = new DiscussionDetailDTO();
         discussionDetailDTO.setDiscussion(getDiscussionById(discussionId));
@@ -120,7 +178,6 @@ public class DiscussionService {
 
         return discussionListDTOS;
     }
-
 
 
 }
