@@ -16,21 +16,4 @@ public interface PostMapper {
     List<PostDTO> toDTOList(List<Post> posts);
     List<BasicPostDTO> toBasicPostList(List<Post> posts);
 
-
-//    @Named("toBasicPostDTO")
-//    default BasicPostDTO toBasicPostDTOWithNamed(Post post) {
-//        if (post == null) {
-//            return null;
-//        }
-//        BasicPostDTO dto = new BasicPostDTO();
-//        dto.setContent(post.getContent());
-//        dto.setId(post.getId());
-//        dto.setNumber(post.getNumber());
-//        dto.setType(post.getType());
-//        dto.setCreatedAt(post.getCreatedAt());
-//        dto.setEditedAt(post.getEditedAt());
-//        dto.setEditedUser(UserMapper.INSTANCE.toBasicUserInfoDTO(post.getEditedUser()));
-//        dto.setUser(UserMapper.INSTANCE.toBasicUserInfoDTO(post.getUser()));
-//        return dto;
-//    }
 }

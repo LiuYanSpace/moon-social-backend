@@ -1,6 +1,5 @@
 package com.tothemoon.app.dto;
 
-import com.bird.dto.BasicUserInfoDTO;
 import lombok.Data;
 import java.util.Date;
 
@@ -9,9 +8,9 @@ public class BasicPostDTO {
     private Long id;
     private Integer number;
     private Date createdAt;
-    private BasicUserInfoDTO user;
+    private Long userId;
     private String type;
     private String content;
     private Date editedAt;
-    private BasicUserInfoDTO editedUser;
+    private Long editedUserId;
 }

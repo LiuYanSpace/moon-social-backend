@@ -34,22 +34,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        try {
-            String jwt = parseJwt(request);
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
-            if (username != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (AccessDeniedException e) {
-            logger.debug("You are not authorized to access this method");
-            throw new ForbiddenRequestException(ErrorReasonCode.Not_Allowed_User);
-        } catch (Exception e) {
-            logger.debug("Cannot set user authentication: {}", e);
-        }
+//        try {
+//            String jwt = parseJwt(request);
+//            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+//            if (username != null) {
+//                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+//                        userDetails, null, userDetails.getAuthorities());
+//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+//        } catch (AccessDeniedException e) {
+//            logger.debug("You are not authorized to access this method");
+//            throw new ForbiddenRequestException(ErrorReasonCode.Not_Allowed_User);
+//        } catch (Exception e) {
+//            logger.debug("Cannot set user authentication: {}", e);
+//        }
         filterChain.doFilter(request, response);
     }
 

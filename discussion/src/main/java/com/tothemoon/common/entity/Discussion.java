@@ -38,9 +38,8 @@ public class Discussion {
     @Column(name = "user_id")
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "first_post_id")
-    private Post firstPost;
+    @Column(name = "first_post_id")
+    private Long firstPostId;
 
     @Column(name = "last_posted_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -49,10 +48,8 @@ public class Discussion {
     @Column(name = "last_posted_user_id")
     private Long lastPostedUserId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "last_post_id")
-    private Post lastPost;
-
+    @Column(name = "last_post_id")
+    private Long lastPostId;
     @Column(name = "last_post_number")
     private Integer lastPostNumber;
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/basic/userinfo/{userId}")
-    public ResponseEntity<BasicUserInfoDTO> getBasicUserinfoByUserId(@PathVariable Long userId) {
+    public ResponseEntity<BasicUserInfoDTO> getBasicUserinfoByUserId(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(userMapper.toBasicUserInfoDTO(userService.getUserById(userId)), HttpStatus.OK);
     }
 

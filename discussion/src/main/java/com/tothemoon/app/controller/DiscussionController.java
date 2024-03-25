@@ -1,7 +1,7 @@
 package com.tothemoon.app.controller;
 
 import com.bird.dto.Pagination;
-import com.tothemoon.app.dto.DiscussionDetailDTO;
+import com.tothemoon.app.dto.DiscussionPageDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.dto.PostDetailDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
@@ -65,19 +65,19 @@ public class DiscussionController {
      *  who reply the post
      */
     @GetMapping("/posts/{discussionId}")
-    public ResponseEntity<Page<PostDetailDTO>> getPostsByDiscussionId(
+    public ResponseEntity<Pagination> getPostsByDiscussionId(
             @PathVariable("discussionId") Long discussionId,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "sortBy", defaultValue = "createdAt") String sortBy,
-            @RequestParam(name = "sortOrder", defaultValue = "DESC") String sortOrder
+            @RequestParam(name = "sortOrder", defaultValue = "ASC") String sortOrder
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         return ResponseEntity.ok(discussionService.getPostsByDiscussionId(discussionId, pageable));
     }
 
     @GetMapping("/{discussionId}")
-    public ResponseEntity<DiscussionDetailDTO> getDiscussionById(@PathVariable Long discussionId) {
+    public ResponseEntity<DiscussionPageDTO> getDiscussionById(@PathVariable("discussionId") Long discussionId) {
         return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
 }

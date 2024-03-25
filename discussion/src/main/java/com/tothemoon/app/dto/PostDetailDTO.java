@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 public class PostDetailDTO {
     BasicPostDTO basicPost;
+    BasicUserInfoDTO user;
+    BasicUserInfoDTO editUser;
     List<BasicUserInfoDTO> likeUsers;
     List<BasicUserInfoDTO> replyUsers;
 }
