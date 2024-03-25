@@ -43,6 +43,8 @@ public class DiscussionService {
     private final DiscussionMapper discussionMapper;
     private final TagMapper tagMapper;
     private final PostMapper postMapper;
+    private final DiscussionViewsRepository discussionViewsRepository;
+
     @Resource
     private UserServiceFeignApi userServiceFeignApi;
 
@@ -144,6 +146,65 @@ public class DiscussionService {
         discussionPageDTO.setTags(getTagsByDiscussionId(discussionId));
         return discussionPageDTO;
     }
+
+
+    //浏览
+
+    public List<DiscussionViewsDTO> getDiscussionList(Long userId) {
+        List<DiscussionViews> discussionViewsList = discussionViewsRepository.findByUserId(userId);
+        List<DiscussionViewsDTO> discussionViewsDTOList = new ArrayList<>();
+        for (DiscussionViews discussionViews : discussionViewsList) {
+            DiscussionViewsDTO discussionViewsDTO = new DiscussionViewsDTO();
+            discussionViewsDTO.getNickname(discussionViews.getUser().getNickname());
+            discussionViewsDTO.setTitle(discussionViews.getDiscussion().getTitle());
+            discussionViewsDTO.setVisitedAt(discussionViews.getVisitedAt());
+
+            discussionViewsDTOList.add(discussionViewsDTO);
+
+        }
+
+        return discussionViewsDTOList;
+    }
+
+    //点赞
+    public void getPostLike(Long postId, Long userId) {
+        if (!postLikeRepository.existsByPostIdAndUserId(postId, userId)) {
+            PostLike postLike = new PostLike(postId, userId);
+            postLikeRepository.save(postLike);
+
+        }
+    }
+
+    // 取消点赞帖子
+    public void unlikePost(Long postId, Long userId) {
+
+        postLikeRepository.deleteByPostIdAndUserId(postId, userId);
+
+    }
+
+
+    // 获取帖子点赞数
+    public int getLikesCount(Long postId) {
+        return postLikeRepository.countByPostId(postId);
+
+    }
+
+
+    //获取用户点赞列表
+    public List<PostLikeDTO> getLikedPosts(Long userId) {
+
+        List<PostLike> postlikes = postLikeRepository.findByUserId(userId);
+        List<PostLikeDTO> likedPosts = new ArrayList<>();
+        for (PostLike postLike : postlikes) {
+            PostLikeDTO postLikeDTO = new PostLikeDTO();
+            postLikeDTO.setPostId(postLike.getPost().getId());
+            postLikeDTO.setContent(postLike.getPost().getContent());
+            likedPosts.add(postLikeDTO);
+        }
+
+        return likedPosts;
+    }
+
 
     private DiscussionDTO getDiscussionById(Long discussionId) {
         Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(() -> new NotFoundRequestException(ErrorReasonCode.Not_Found_Entity));

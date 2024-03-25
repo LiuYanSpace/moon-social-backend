@@ -15,7 +15,15 @@ import java.util.List;
  * @Version: v1.0
  */
 public interface PostLikeRepository extends ListCrudRepository<PostLike, PostLikeId> {
-    List<PostLike> findByUserIdAndPostId(long userId, long postId);
 
     List<PostLike> findByPostId(long postId);
+
+    boolean existsByPostIdAndUserId(Long postId, Long userId);
+
+    void deleteByPostIdAndUserId(Long postId, Long userId);
+
+    int countByPostId(Long postId);
+
+    List<PostLike> findByUserId(Long userId);
+
 }

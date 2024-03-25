@@ -5,6 +5,7 @@ import com.tothemoon.app.dto.DiscussionPageDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
 import com.tothemoon.app.dto.PostDetailDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
+import com.tothemoon.app.mapper.PostLikeMapper;
 import com.tothemoon.app.service.DiscussionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,8 @@ public class DiscussionController {
     @Autowired
     private DiscussionMapper discussionMapper;
 
+    @Autowired
+    private PostLikeMapper postLikeMapper;
 
     @GetMapping
     public ResponseEntity<Pagination> getDiscussionList(
@@ -80,4 +83,37 @@ public class DiscussionController {
     public ResponseEntity<DiscussionPageDTO> getDiscussionById(@PathVariable("discussionId") Long discussionId) {
         return ResponseEntity.ok(discussionService.getDiscussionWithTagsById(discussionId));
     }
+
+
+    @PostMapping("/posts/{postId}/like/{userId}")
+    public ResponseEntity<String> likePost(@PathVariable Long postId, @RequestParam Long userId){
+        return null;
+        discussionService.getPostLike(postId, userId);
+        return ResponseEntity.ok("已点赞");
+    }
+
+    @DeleteMapping("/posts/{postId}/delete")
+    public ResponseEntity<String> deleteLikePost(@PathVariable Long postId, @RequestParam Long userId){
+        discussionService.unlikePost(postId,userId);
+        return ResponseEntity.ok("取消点赞");
+    }
+
+    @GetMapping ("/posts/{postId}/count")
+    public ResponseEntity<Integer> getLikesCount(@PathVariable Long postId) {
+        int likesCount = discussionService.getLikesCount(postId);
+        return ResponseEntity.ok(likesCount);
+    }
+
+    @GetMapping("/users/{userId}/liked")
+    public ResponseEntity<List<PostLikeDTO>> getLikedPosts(@PathVariable Long userId) {
+
+        return ResponseEntity.ok(discussionService.getLikedPosts(userId));
+    }
+
+    @GetMapping("/discussion/discussion_views/{userId}")
+    public ResponseEntity<List<DiscussionViewsDTO>> getListDiscussionViews(@PathVariable Long userId) {
+
+        return ResponseEntity.ok(discussionService.getDiscussionList(userId));
+    }
+
 }
