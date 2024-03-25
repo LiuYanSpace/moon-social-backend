@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/collections")
+@RequestMapping("/api/discussions/collections")
 public class CollectionController {
     @Autowired
     private CollectionService collectionService;
