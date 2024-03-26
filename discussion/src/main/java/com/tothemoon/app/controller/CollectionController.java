@@ -23,7 +23,8 @@ public class CollectionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "updatedAt") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortOrder, @RequestHeader("X-UserId") String userId) {
+            @RequestParam(defaultValue = "DESC") String sortOrder,
+            @RequestHeader("X-UserId") String userId) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
         return ResponseEntity.ok(collectionService.getDiscussionCollections(pageable, userId));

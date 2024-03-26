@@ -1,10 +1,10 @@
 package com.tothemoon.app.service;
 
 import com.bird.enums.FileType;
-//import com.tothemoon.app.feign.client.AuthFeignClient;
 import com.tothemoon.common.config.S3FileManager;
 import com.tothemoon.common.entity.FileInfo;
 import com.tothemoon.common.repository.FileRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
