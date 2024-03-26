@@ -3,6 +3,7 @@ package com.tothemoon.app.controller;
 import com.bird.dto.Pagination;
 import com.tothemoon.app.dto.DiscussionPageDTO;
 import com.tothemoon.app.dto.DiscussionListDTO;
+import com.tothemoon.app.dto.DiscussionPostDTO;
 import com.tothemoon.app.dto.PostDetailDTO;
 import com.tothemoon.app.mapper.DiscussionMapper;
 import com.tothemoon.app.mapper.PostLikeMapper;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,19 @@ public class DiscussionController {
 
     @Autowired
     private PostLikeMapper postLikeMapper;
+
+
+    @PostMapping("/post")
+    public ResponseEntity<?> createNewDiscussion(  @RequestHeader("X-UserId") Long userId, @RequestBody DiscussionPostDTO discussionPostDTO) {
+        discussionService.createNewDiscussion(discussionPostDTO, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/post/{postId}")
+    public ResponseEntity<?> updateNewDiscussion( @RequestHeader("X-UserId") Long userId, @PathVariable("postId") Long postId , @RequestBody DiscussionPostDTO discussionPostDTO)  {
+        discussionService.updateNewDiscussion(discussionPostDTO,postId,userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<Pagination> getDiscussionList(

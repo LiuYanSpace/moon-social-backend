@@ -120,7 +120,6 @@ public class DiscussionService {
     }
 
 
-
     public Pagination getDiscussionList(Pageable pageable) {
         Page<Discussion> discussionPage = discussionRepository.findByIsStickyFalseAndIsPrivateFalseAndIsApprovedTrue(pageable);
         List<Discussion> discussions = discussionPage.getContent();
@@ -243,4 +242,26 @@ public class DiscussionService {
         return discussionListDTOS;
     }
 
+    public void createNewDiscussion(DiscussionPostDTO discussionPostDTO, Long userId) {
+        Discussion discussion = new Discussion();
+        discussion.setTitle(discussionPostDTO.getTitle());
+        discussion.setUserId(userId);
+        discussion.setCreatedAt(new Date());
+        discussion = discussionRepository.save(discussion);
+        Post post = new Post();
+        post.setContent(discussionPostDTO.getContent());
+        post.setDiscussion(discussion);
+        post = postRepository.save(post);
+        discussion.setFirstPostId(post.getId());
+        discussionRepository.save(discussion);
+        String[] tagIds = discussionPostDTO.getTags().split(",");
+        for (String tagIdStr : tagIds) {
+            Long tagId = Long.parseLong(tagIdStr.trim());
+            DiscussionTag discussionTag = new DiscussionTag();
+            discussionTag.setDiscussionId(discussion.getId());
+            discussionTag.setTagId(tagId);
+            discussionTag.setCreatedAt(new Date());
+            discussionTagRepository.save(discussionTag);
+        }
+    }
 }

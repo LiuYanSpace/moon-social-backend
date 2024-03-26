@@ -23,6 +23,13 @@ import java.io.Serializable;
 )
 public class DiscussionTag {
 
+    public void setDiscussionId(Long discussionId) {
+        this.id.discussionId = discussionId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.id.tagId = tagId;
+    }
     @Embeddable
     public static class Id implements Serializable {
         @Column(name = "discussion_id", nullable = false, updatable = false)
