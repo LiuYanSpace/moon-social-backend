@@ -86,16 +86,7 @@ public class UserService {
         return userRepository.save(preMember);
     }
 
-    public String getAndUpdateMemberProfileImage(String imageUrl) {
-        User preUser = getUser();
-        preUser.setAvatarUrl(imageUrl);
-        userRepository.save(preUser);
-        return preUser.getAvatarUrl();
-    }
 
-    public String getMemberProfileImage() {
-        return getUser().getAvatarUrl();
-    }
 
     public User getUser() {
         Long userId = SecurityUtil.getCurrentUserId();
